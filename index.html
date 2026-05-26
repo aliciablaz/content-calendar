@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code For The People — Social Planning</title>
+    <style>
+        @font-face {
+            font-family: 'Source Serif 4';
+            src: url('fonts/SourceSerif4-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --instagram: #E1306C;
+            --x: #a0a0a0;
+            --bluesky: #0085FF;
+            --linkedin: #0A66C2;
+            --youtube: #FF0000;
+            --bg: #0d0d0f;
+            --page-bg: #0d0d0f;
+            --card: #18181b;
+            --card-elevated: #1f1f23;
+            --border: #2a2a2e;
+            --border-subtle: #222225;
+            --text: #f0f0f2;
+            --text-secondary: #8b8b92;
+            --text-light: #55555c;
+            --amber: #f59e0b;
+            --green: #34d399;
+            --accent: #a78bfa;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--page-bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 32px 40px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .top-bar-icon {
+            width: 36px;
+            height: 36px;
+            background: #eef2ff;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .top-bar h1 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+        }
+        .create-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #72B3FF;
+            color: #000000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+        }
+        .create-btn:hover { background: #8ec2ff; }
+        .create-btn svg { width: 16px; height: 16px; }
+
+        /* ===== STAT CARDS ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+        }
+        .stat-card-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .stat-card-value {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .stat-card-value.amber { color: var(--amber); }
+        .stat-card-value.green { color: var(--green); }
+
+        /* ===== FILTER BAR ===== */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .filter-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .filter-label svg { width: 16px; height: 16px; color: var(--text-secondary); }
+        .filter-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1.5px solid var(--border);
+            background: var(--card);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            transition: all .15s;
+        }
+        .filter-pill:hover { border-color: #3a3a3e; background: var(--card-elevated); }
+        .filter-pill.active {
+            background: #f0f0f2;
+            color: #0d0d0f;
+            border-color: #f0f0f2;
+        }
+        .filter-pill .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .filter-pill.active .dot { opacity: 0; width: 0; margin: 0; padding: 0; }
+
+        /* ===== CALENDAR CARD ===== */
+        .calendar-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+        }
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .month-title {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+        }
+        .month-nav {
+            display: flex;
+            gap: 6px;
+        }
+        .month-nav button {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--card);
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: all .15s;
+        }
+        .month-nav button:hover { background: var(--card-elevated); }
+
+        /* ===== CALENDAR GRID ===== */
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        .day-header {
+            background: var(--card-elevated);
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        .day-header:not(:last-child) { border-right: 1px solid var(--border); }
+        .day-cell {
+            min-height: 120px;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            background: var(--card);
+            position: relative;
+            transition: background .1s;
+        }
+        .day-cell:not(:nth-child(7n)) { border-right: 1px solid var(--border); }
+        .cal-grid > .day-cell:nth-last-child(-n+7) { border-bottom: none; }
+        .day-cell:hover { background: var(--card-elevated); }
+        .day-cell.other-month { background: #131316; }
+        .day-cell.other-month .day-num { color: var(--text-light); }
+        .day-cell.today .day-num-text {
+            background: #3b82f6;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+        .day-num {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        /* ===== POST CHIPS ===== */
+        .post-chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all .12s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .post-chip:hover { filter: brightness(0.95); transform: translateY(-0.5px); }
+        .post-chip .chip-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .post-chip.instagram { background: rgba(225,48,108,.15); color: #f472b6; }
+        .post-chip.instagram .chip-dot { background: var(--instagram); }
+        .post-chip.x { background: rgba(255,255,255,.08); color: #a0a0a6; }
+        .post-chip.x .chip-dot { background: var(--x); }
+        .post-chip.bluesky { background: rgba(0,133,255,.15); color: #60a5fa; }
+        .post-chip.bluesky .chip-dot { background: var(--bluesky); }
+        .post-chip.linkedin { background: rgba(10,102,194,.15); color: #60a5fa; }
+        .post-chip.linkedin .chip-dot { background: var(--linkedin); }
+        .post-chip.youtube { background: rgba(255,0,0,.12); color: #f87171; }
+        .post-chip.youtube .chip-dot { background: var(--youtube); }
+
+        .more-count {
+            font-size: 11px;
+            color: var(--text-secondary);
+            padding: 2px 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .more-count:hover { color: var(--text); }
+
+        /* ===== LIST VIEW ===== */
+        .list-view { display: none; }
+        .list-week { margin-bottom: 24px; }
+        .list-week-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .list-item {
+            display: grid;
+            grid-template-columns: 100px 110px 1fr auto auto;
+            gap: 16px;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all .12s;
+        }
+        .list-item:hover { border-color: #3a3a3e; background: var(--card-elevated); }
+        .list-date { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+        .list-platform {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .list-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+        .list-title { font-size: 14px; font-weight: 500; }
+        .list-type {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.06);
+            color: var(--text-secondary);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .list-status {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .list-status.draft { background: rgba(245,158,11,.15); color: #fbbf24; }
+        .list-status.scheduled { background: rgba(52,211,153,.15); color: #34d399; }
+
+        /* ===== VIEW TOGGLE ===== */
+        .view-toggle {
+            display: flex;
+            gap: 4px;
+            margin-left: auto;
+        }
+        .view-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all .12s;
+        }
+        .view-btn:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+        .view-btn:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; border-left: none; }
+        .view-btn.active {
+            background: #f0f0f2;
+            color: #0d0d0f;
+            border-color: #f0f0f2;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,.5);
+        }
+        .modal-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .modal-platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .modal-platform-badge.instagram { background: rgba(225,48,108,.15); color: #f472b6; }
+        .modal-platform-badge.x { background: rgba(255,255,255,.08); color: #a0a0a6; }
+        .modal-platform-badge.bluesky { background: rgba(0,133,255,.15); color: #60a5fa; }
+        .modal-platform-badge.linkedin { background: rgba(10,102,194,.15); color: #60a5fa; }
+        .modal-platform-badge.youtube { background: rgba(255,0,0,.12); color: #f87171; }
+        .modal-title { font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; font-weight: 400; }
+        .modal-close {
+            width: 32px; height: 32px;
+            border: none;
+            background: rgba(255,255,255,.08);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text-secondary);
+            transition: background .12s;
+        }
+        .modal-close:hover { background: rgba(255,255,255,.14); }
+        .modal-body { padding: 20px 28px 28px; }
+        .modal-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .modal-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .modal-status-badge {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .modal-status-badge.draft { background: rgba(245,158,11,.15); color: #fbbf24; }
+        .modal-status-badge.scheduled { background: rgba(52,211,153,.15); color: #34d399; }
+        .modal-section { margin-bottom: 20px; }
+        .modal-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .modal-copy {
+            font-size: 14px;
+            line-height: 1.7;
+            background: rgba(255,255,255,.04);
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            white-space: pre-wrap;
+            border: 1px solid var(--border-subtle);
+        }
+        .modal-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .modal-tag {
+            background: rgba(167,139,250,.12);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .modal-notes {
+            font-size: 13px;
+            color: #fbbf24;
+            background: rgba(245,158,11,.08);
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid rgba(245,158,11,.4);
+        }
+
+        /* ===== CREATE POST MODAL ===== */
+        .create-modal { max-width: 480px; }
+        .create-modal .modal-body { padding: 24px 28px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--text);
+            background: var(--card-elevated);
+            transition: border-color .12s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(167,139,250,.12);
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color: var(--text-light); }
+        .form-select { color-scheme: dark; }
+        .form-textarea { resize: vertical; min-height: 100px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+        .btn-cancel {
+            padding: 10px 18px;
+            border: 1px solid var(--border);
+            background: var(--card-elevated);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text);
+        }
+        .btn-cancel:hover { background: #2a2a2e; }
+        .btn-save {
+            padding: 10px 18px;
+            background: #72B3FF;
+            color: #000000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-save:hover { background: #8ec2ff; }
+
+        /* ===== ASSET CAROUSEL ===== */
+        .carousel-container {
+            position: relative;
+            background: #131316;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform .3s ease;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 340px;
+            border-radius: 6px;
+            object-fit: contain;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,.12);
+            box-shadow: 0 2px 8px rgba(0,0,0,.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text);
+            transition: background .12s;
+            z-index: 2;
+        }
+        .carousel-btn:hover { background: rgba(255,255,255,.2); }
+        .carousel-btn.prev { left: 10px; }
+        .carousel-btn.next { right: 10px; }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 0 4px;
+        }
+        .carousel-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #3a3a3e;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: background .15s;
+        }
+        .carousel-dot.active { background: var(--text); }
+        .no-assets {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--text-light);
+            font-size: 13px;
+            background: #131316;
+            border-radius: var(--radius-sm);
+        }
+        .no-assets svg { display: block; margin: 0 auto 8px; opacity: .4; }
+
+        /* ===== ASSET STATUS BADGES ===== */
+        .asset-status {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .asset-status.todo { background: rgba(255,255,255,.06); color: #8b8b92; }
+        .asset-status.in-production { background: rgba(59,130,246,.15); color: #60a5fa; }
+        .asset-status.in-review { background: rgba(245,158,11,.15); color: #fbbf24; }
+        .asset-status.shipped { background: rgba(52,211,153,.15); color: #34d399; }
+        .asset-status-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+        }
+        .asset-status.todo .asset-status-dot { background: #9ca3af; }
+        .asset-status.in-production .asset-status-dot { background: #3b82f6; }
+        .asset-status.in-review .asset-status-dot { background: #f59e0b; }
+        .asset-status.shipped .asset-status-dot { background: #22c55e; }
+
+        /* ===== DRIVE LINK BUTTON ===== */
+        .drive-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--card-elevated);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .12s;
+        }
+        .drive-link-btn:hover { border-color: #60a5fa; color: #60a5fa; background: rgba(59,130,246,.1); }
+        .drive-link-btn svg { flex-shrink: 0; }
+
+        /* ===== FILE UPLOAD ===== */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .15s;
+            position: relative;
+        }
+        .upload-area:hover { border-color: var(--accent); background: rgba(167,139,250,.06); }
+        .upload-area.has-files { border-style: solid; border-color: #3a3a3e; }
+        .upload-area input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .upload-area svg { display: block; margin: 0 auto 6px; color: var(--text-light); }
+        .upload-area p { font-size: 13px; color: var(--text-secondary); }
+        .upload-area p span { color: var(--accent); font-weight: 600; }
+        .upload-preview {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .upload-thumb-wrap {
+            position: relative;
+            width: 72px; height: 72px;
+        }
+        .upload-thumb {
+            width: 72px; height: 72px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+        .upload-thumb-remove {
+            position: absolute;
+            top: -6px; right: -6px;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            border: 2px solid var(--card);
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        /* ===== LEARN MORE DROPDOWN ===== */
+        .learn-more {
+            margin-top: 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--card);
+            overflow: hidden;
+        }
+        .learn-more-toggle {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            transition: background .12s;
+        }
+        .learn-more-toggle:hover { background: var(--card-elevated); }
+        .learn-more-chevron {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+            transition: transform .25s ease;
+            flex-shrink: 0;
+        }
+        .learn-more.open .learn-more-chevron { transform: rotate(180deg); }
+        .learn-more-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+        }
+        .learn-more.open .learn-more-content { max-height: 600px; }
+        .learn-more-inner {
+            padding: 0 20px 20px;
+            border-top: 1px solid var(--border);
+        }
+        .learn-more-inner p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-top: 16px;
+        }
+        .learn-more-inner a {
+            color: #72B3FF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .learn-more-inner a:hover { text-decoration: underline; }
+        .learn-more-links {
+            list-style: none;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .learn-more-links li {
+            font-size: 14px;
+        }
+        .learn-more-links li a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 900px) {
+            body { padding: 16px; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .calendar-card { padding: 16px; }
+            .day-cell { min-height: 80px; padding: 6px; }
+            .post-chip { font-size: 10px; padding: 2px 5px; }
+            .list-item { grid-template-columns: 80px 90px 1fr; }
+            .list-type, .list-status { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <h1>Code For The People — Social Planning</h1>
+    </div>
+    <button class="create-btn" id="createPostBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Create Post
+    </button>
+</div>
+
+<!-- STAT CARDS -->
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-card-label">Total Posts</div>
+        <div class="stat-card-value" id="statTotal">0</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-label">Scheduled</div>
+        <div class="stat-card-value amber" id="statScheduled">0</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-label">Published</div>
+        <div class="stat-card-value green" id="statPublished">0</div>
+    </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+    <div class="filter-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Filter by:
+    </div>
+    <div class="filter-pills">
+        <button class="filter-pill active" data-platform="all">All Platforms</button>
+        <button class="filter-pill" data-platform="instagram"><span class="dot" style="background:var(--instagram)"></span>Instagram</button>
+        <button class="filter-pill" data-platform="x"><span class="dot" style="background:var(--x)"></span>Twitter/X</button>
+        <button class="filter-pill" data-platform="bluesky"><span class="dot" style="background:var(--bluesky)"></span>Bluesky</button>
+        <button class="filter-pill" data-platform="linkedin"><span class="dot" style="background:var(--linkedin)"></span>LinkedIn</button>
+        <button class="filter-pill" data-platform="youtube"><span class="dot" style="background:var(--youtube)"></span>YouTube</button>
+    </div>
+    <div class="view-toggle">
+        <button class="view-btn active" data-view="calendar">Calendar</button>
+        <button class="view-btn" data-view="list">List</button>
+    </div>
+</div>
+
+<!-- CALENDAR -->
+<div class="calendar-card" id="calendarCard">
+    <div class="calendar-header">
+        <div class="month-title" id="monthLabel">June 2026</div>
+        <div class="month-nav">
+            <button id="prevMonth">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button id="nextMonth">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+    <div id="calendarGrid"></div>
+</div>
+
+<!-- LIST VIEW (inside same card area) -->
+<div class="calendar-card list-view" id="listView" style="display:none"></div>
+
+<!-- LEARN MORE DROPDOWN -->
+<div class="learn-more" id="learnMore">
+    <button class="learn-more-toggle" id="learnMoreToggle">
+        <span>Learn more about this Social Planning</span>
+        <svg class="learn-more-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="learn-more-content">
+        <div class="learn-more-inner">
+            <p>Content and links coming soon — this section will include resources, guides, and helpful links related to this social planning workflow.</p>
+            <ul class="learn-more-links">
+                <li><a href="#">→ Placeholder link 1</a></li>
+                <li><a href="#">→ Placeholder link 2</a></li>
+                <li><a href="#">→ Placeholder link 3</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- POST DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+        <div class="modal-header">
+            <div>
+                <div class="modal-platform-badge" id="modalPlatform"></div>
+                <div class="modal-title" id="modalTitle"></div>
+            </div>
+            <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- CREATE POST MODAL -->
+<div class="modal-overlay" id="createOverlay">
+    <div class="modal create-modal">
+        <div class="modal-header">
+            <div><div class="modal-title">Create New Post</div></div>
+            <button class="modal-close" id="createClose">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="newDate">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Platform</label>
+                    <select class="form-select" id="newPlatform">
+                        <option value="instagram">Instagram</option>
+                        <option value="x">Twitter/X</option>
+                        <option value="bluesky">Bluesky</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="youtube">YouTube</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Content Type</label>
+                    <input type="text" class="form-input" id="newType" placeholder="e.g. Carousel, Reel, Thread">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="newStatus">
+                        <option value="draft">Draft</option>
+                        <option value="scheduled">Scheduled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-input" id="newTitle" placeholder="Post title">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Draft Copy</label>
+                <textarea class="form-textarea" id="newCopy" placeholder="Write your post copy here..."></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hashtags (comma-separated)</label>
+                <input type="text" class="form-input" id="newHashtags" placeholder="#WordPress, #WebDev">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Production Notes</label>
+                <input type="text" class="form-input" id="newNotes" placeholder="Creative direction, asset notes...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Upload Assets (JPG/PNG)</label>
+                <div class="upload-area" id="uploadArea">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <p><span>Click to upload</span> or drag and drop</p>
+                    <p style="font-size:11px;color:var(--text-light);margin-top:2px">JPG, PNG up to 10MB each</p>
+                    <input type="file" id="newAssets" accept="image/jpeg,image/png" multiple>
+                </div>
+                <div class="upload-preview" id="uploadPreview"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Status of Assets</label>
+                    <select class="form-select" id="newAssetStatus">
+                        <option value="todo">To Do</option>
+                        <option value="in-production">In Production</option>
+                        <option value="in-review">In Review</option>
+                        <option value="shipped">Shipped</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Google Drive Link</label>
+                    <input type="url" class="form-input" id="newDriveLink" placeholder="https://drive.google.com/...">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel" id="createCancelBtn">Cancel</button>
+                <button class="btn-save" id="createSaveBtn">Add Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const POSTS = [];
+
+const PLATFORM_LABELS = {
+    instagram: "Instagram", x: "Twitter/X", bluesky: "Bluesky", linkedin: "LinkedIn", youtube: "YouTube"
+};
+
+const MONTHS = [
+    { year: 2026, month: 5, label: "June 2026" },
+    { year: 2026, month: 6, label: "July 2026" },
+    { year: 2026, month: 7, label: "August 2026" }
+];
+
+let currentMonthIdx = 0;
+let activeFilter = "all";
+let currentView = "calendar";
+
+function getFilteredPosts() {
+    if (activeFilter === "all") return POSTS;
+    return POSTS.filter(p => p.platform === activeFilter);
+}
+
+function updateStats() {
+    const filtered = getFilteredPosts();
+    document.getElementById('statTotal').textContent = filtered.length;
+    document.getElementById('statScheduled').textContent = filtered.filter(p => p.status === 'scheduled').length;
+    document.getElementById('statPublished').textContent = filtered.filter(p => p.status === 'published').length;
+}
+
+function renderCalendar() {
+    const m = MONTHS[currentMonthIdx];
+    const firstDay = new Date(m.year, m.month, 1);
+    const lastDay = new Date(m.year, m.month + 1, 0);
+    const startDow = firstDay.getDay();
+    const daysInMonth = lastDay.getDate();
+    const today = new Date();
+    const filtered = getFilteredPosts();
+
+    let html = '<div class="cal-grid">';
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d => {
+        html += '<div class="day-header">' + d + '</div>';
+    });
+
+    const prevMonth = new Date(m.year, m.month, 0);
+    const prevDays = prevMonth.getDate();
+    for (let i = 0; i < startDow; i++) {
+        html += '<div class="day-cell other-month"><div class="day-num">' + (prevDays - startDow + 1 + i) + '</div></div>';
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = m.year + '-' + String(m.month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+        const dayPosts = filtered.filter(p => p.date === dateStr);
+        const isToday = today.getFullYear() === m.year && today.getMonth() === m.month && today.getDate() === day;
+
+        html += '<div class="day-cell' + (isToday ? ' today' : '') + '">';
+        if (isToday) {
+            html += '<div class="day-num"><span class="day-num-text">' + day + '</span></div>';
+        } else {
+            html += '<div class="day-num">' + day + '</div>';
+        }
+
+        const maxShow = 3;
+        dayPosts.slice(0, maxShow).forEach(function(post) {
+            html += '<div class="post-chip ' + post.platform + '" data-post-idx="' + POSTS.indexOf(post) + '">';
+            html += '<span class="chip-dot"></span>';
+            html += '<span>' + (post.title.length > 22 ? post.title.slice(0,22) + '...' : post.title) + '</span>';
+            html += '</div>';
+        });
+        if (dayPosts.length > maxShow) {
+            html += '<div class="more-count">+' + (dayPosts.length - maxShow) + ' more</div>';
+        }
+        html += '</div>';
+    }
+
+    const totalCells = startDow + daysInMonth;
+    const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+    for (let i = 1; i <= remaining; i++) {
+        html += '<div class="day-cell other-month"><div class="day-num">' + i + '</div></div>';
+    }
+
+    html += '</div>';
+    document.getElementById('calendarGrid').innerHTML = html;
+    document.getElementById('monthLabel').textContent = m.label;
+
+    document.querySelectorAll('.post-chip[data-post-idx]').forEach(function(el) {
+        el.addEventListener('click', function() {
+            openModal(POSTS[parseInt(el.dataset.postIdx)]);
+        });
+    });
+}
+
+function renderList() {
+    const filtered = getFilteredPosts();
+    const m = MONTHS[currentMonthIdx];
+    const monthPosts = filtered.filter(function(p) {
+        const d = new Date(p.date);
+        return d.getFullYear() === m.year && d.getMonth() === m.month;
+    }).sort(function(a, b) { return a.date.localeCompare(b.date); });
+
+    let html = '<div class="calendar-header"><div class="month-title">' + m.label + '</div><div class="month-nav"><button id="prevMonthList"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><button id="nextMonthList"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button></div></div>';
+
+    let currentWeek = '';
+    monthPosts.forEach(function(post) {
+        const d = new Date(post.date + 'T00:00:00');
+        const weekStart = new Date(d);
+        weekStart.setDate(d.getDate() - d.getDay());
+        const weekKey = weekStart.toISOString().slice(0,10);
+
+        if (weekKey !== currentWeek) {
+            currentWeek = weekKey;
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+            html += '<div class="list-week"><div class="list-week-header">Week of ' + weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' - ' + weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + '</div>';
+        }
+
+        const dateObj = new Date(post.date + 'T00:00:00');
+        const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        const platformColor = 'var(--' + post.platform + ')';
+        const idx = POSTS.indexOf(post);
+
+        html += '<div class="list-item" data-post-idx="' + idx + '">';
+        html += '<div class="list-date">' + dateLabel + '</div>';
+        html += '<div class="list-platform"><span class="list-dot" style="background:' + platformColor + '"></span>' + PLATFORM_LABELS[post.platform] + '</div>';
+        html += '<div class="list-title">' + post.title + '</div>';
+        html += '<div class="list-type">' + post.type + '</div>';
+        html += '<div class="list-status ' + post.status + '">' + post.status.charAt(0).toUpperCase() + post.status.slice(1) + '</div>';
+        html += '</div>';
+    });
+
+    if (!monthPosts.length) {
+        html += '<p style="text-align:center;color:var(--text-secondary);padding:40px;">No posts for this month with the current filter.</p>';
+    }
+
+    document.getElementById('listView').innerHTML = html;
+
+    document.querySelectorAll('#listView .list-item[data-post-idx]').forEach(function(el) {
+        el.addEventListener('click', function() {
+            openModal(POSTS[parseInt(el.dataset.postIdx)]);
+        });
+    });
+
+    var prevBtn = document.getElementById('prevMonthList');
+    var nextBtn = document.getElementById('nextMonthList');
+    if (prevBtn) prevBtn.addEventListener('click', function() { if (currentMonthIdx > 0) { currentMonthIdx--; render(); } });
+    if (nextBtn) nextBtn.addEventListener('click', function() { if (currentMonthIdx < MONTHS.length - 1) { currentMonthIdx++; render(); } });
+}
+
+var ASSET_STATUS_LABELS = { 'todo': 'To Do', 'in-production': 'In Production', 'in-review': 'In Review', 'shipped': 'Shipped' };
+
+function openModal(post) {
+    const dateObj = new Date(post.date + 'T00:00:00');
+    const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+    document.getElementById('modalPlatform').className = 'modal-platform-badge ' + post.platform;
+    document.getElementById('modalPlatform').textContent = PLATFORM_LABELS[post.platform];
+    document.getElementById('modalTitle').textContent = post.title;
+
+    let body = '<div class="modal-meta">';
+    body += '<div class="modal-meta-item">' + dateLabel + '</div>';
+    body += '<div class="modal-meta-item">' + post.type + '</div>';
+    body += '<div class="modal-status-badge ' + post.status + '">' + post.status.charAt(0).toUpperCase() + post.status.slice(1) + '</div>';
+    body += '</div>';
+
+    // Asset carousel
+    body += '<div class="modal-section"><div class="modal-section-title">Assets</div>';
+    var assets = post.assets || [];
+    if (assets.length > 0) {
+        body += '<div class="carousel-container" id="modalCarousel">';
+        if (assets.length > 1) {
+            body += '<button class="carousel-btn prev" onclick="carouselNav(-1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>';
+            body += '<button class="carousel-btn next" onclick="carouselNav(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>';
+        }
+        body += '<div class="carousel-track" id="carouselTrack">';
+        assets.forEach(function(src) {
+            body += '<div class="carousel-slide"><img src="' + src + '" alt="Asset preview"></div>';
+        });
+        body += '</div></div>';
+        if (assets.length > 1) {
+            body += '<div class="carousel-dots" id="carouselDots">';
+            assets.forEach(function(_, i) {
+                body += '<button class="carousel-dot' + (i === 0 ? ' active' : '') + '" onclick="carouselGoTo(' + i + ')"></button>';
+            });
+            body += '</div>';
+        }
+    } else {
+        body += '<div class="no-assets"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>No assets uploaded yet</div>';
+    }
+
+    // Asset status & drive link row
+    var assetStatus = post.assetStatus || 'todo';
+    body += '<div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">';
+    body += '<span class="asset-status ' + assetStatus + '"><span class="asset-status-dot"></span>' + ASSET_STATUS_LABELS[assetStatus] + '</span>';
+    if (post.driveLink) {
+        body += '<a href="' + post.driveLink + '" target="_blank" rel="noopener noreferrer" class="drive-link-btn">';
+        body += '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+        body += 'Download assets</a>';
+    }
+    body += '</div></div>';
+
+    body += '<div class="modal-section"><div class="modal-section-title">Draft Copy</div>';
+    body += '<div class="modal-copy">' + post.copy + '</div></div>';
+
+    if (post.hashtags && post.hashtags.length) {
+        body += '<div class="modal-section"><div class="modal-section-title">Hashtags</div><div class="modal-tags">';
+        post.hashtags.forEach(function(tag) { body += '<span class="modal-tag">' + tag + '</span>'; });
+        body += '</div></div>';
+    }
+
+    if (post.notes) {
+        body += '<div class="modal-section"><div class="modal-section-title">Production Notes</div>';
+        body += '<div class="modal-notes">' + post.notes + '</div></div>';
+    }
+
+    document.getElementById('modalBody').innerHTML = body;
+    document.getElementById('modalOverlay').classList.add('open');
+    window._carouselIdx = 0;
+}
+
+var _carouselIdx = 0;
+function carouselNav(dir) {
+    var track = document.getElementById('carouselTrack');
+    if (!track) return;
+    var count = track.children.length;
+    _carouselIdx = (_carouselIdx + dir + count) % count;
+    track.style.transform = 'translateX(-' + (_carouselIdx * 100) + '%)';
+    updateCarouselDots();
+}
+function carouselGoTo(idx) {
+    var track = document.getElementById('carouselTrack');
+    if (!track) return;
+    _carouselIdx = idx;
+    track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+    updateCarouselDots();
+}
+function updateCarouselDots() {
+    var dots = document.querySelectorAll('#carouselDots .carousel-dot');
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === _carouselIdx); });
+}
+
+function closeModal(overlayId) {
+    document.getElementById(overlayId).classList.remove('open');
+}
+
+document.getElementById('modalClose').addEventListener('click', function() { closeModal('modalOverlay'); });
+document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeModal('modalOverlay'); });
+
+document.getElementById('createPostBtn').addEventListener('click', function() { document.getElementById('createOverlay').classList.add('open'); });
+function closeCreateModal() { pendingAssets = []; renderUploadPreview(); closeModal('createOverlay'); }
+document.getElementById('createClose').addEventListener('click', closeCreateModal);
+document.getElementById('createCancelBtn').addEventListener('click', closeCreateModal);
+document.getElementById('createOverlay').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeCreateModal(); });
+
+// File upload handling
+var pendingAssets = [];
+
+document.getElementById('newAssets').addEventListener('change', function(e) {
+    var files = Array.from(e.target.files);
+    files.forEach(function(file) {
+        if (!file.type.match(/^image\/(jpeg|png)$/)) return;
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+            pendingAssets.push(ev.target.result);
+            renderUploadPreview();
+        };
+        reader.readAsDataURL(file);
+    });
+    e.target.value = '';
+});
+
+function renderUploadPreview() {
+    var container = document.getElementById('uploadPreview');
+    var area = document.getElementById('uploadArea');
+    container.innerHTML = '';
+    if (pendingAssets.length > 0) {
+        area.classList.add('has-files');
+        pendingAssets.forEach(function(src, i) {
+            var wrap = document.createElement('div');
+            wrap.className = 'upload-thumb-wrap';
+            wrap.innerHTML = '<img class="upload-thumb" src="' + src + '" alt="Asset ' + (i+1) + '"><button class="upload-thumb-remove" data-idx="' + i + '">&times;</button>';
+            container.appendChild(wrap);
+        });
+        container.querySelectorAll('.upload-thumb-remove').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                pendingAssets.splice(parseInt(btn.dataset.idx), 1);
+                renderUploadPreview();
+            });
+        });
+    } else {
+        area.classList.remove('has-files');
+    }
+}
+
+document.getElementById('createSaveBtn').addEventListener('click', function() {
+    var title = document.getElementById('newTitle').value.trim();
+    var date = document.getElementById('newDate').value;
+    if (!title || !date) return;
+
+    POSTS.push({
+        date: date,
+        platform: document.getElementById('newPlatform').value,
+        type: document.getElementById('newType').value || 'Post',
+        status: document.getElementById('newStatus').value,
+        title: title,
+        copy: document.getElementById('newCopy').value || '',
+        hashtags: document.getElementById('newHashtags').value.split(',').map(function(t) { return t.trim(); }).filter(Boolean),
+        notes: document.getElementById('newNotes').value || '',
+        assets: pendingAssets.slice(),
+        assetStatus: document.getElementById('newAssetStatus').value,
+        driveLink: document.getElementById('newDriveLink').value.trim() || ''
+    });
+
+    document.getElementById('newTitle').value = '';
+    document.getElementById('newCopy').value = '';
+    document.getElementById('newHashtags').value = '';
+    document.getElementById('newNotes').value = '';
+    document.getElementById('newType').value = '';
+    document.getElementById('newDriveLink').value = '';
+    document.getElementById('newAssetStatus').value = 'todo';
+    pendingAssets = [];
+    renderUploadPreview();
+    closeModal('createOverlay');
+    render();
+});
+
+document.getElementById('prevMonth').addEventListener('click', function() { if (currentMonthIdx > 0) { currentMonthIdx--; render(); } });
+document.getElementById('nextMonth').addEventListener('click', function() { if (currentMonthIdx < MONTHS.length - 1) { currentMonthIdx++; render(); } });
+
+document.querySelectorAll('.filter-pill').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-pill').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        activeFilter = btn.dataset.platform;
+        render();
+    });
+});
+
+document.querySelectorAll('.view-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.view-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentView = btn.dataset.view;
+        document.getElementById('calendarCard').style.display = currentView === 'calendar' ? 'block' : 'none';
+        document.getElementById('listView').style.display = currentView === 'list' ? 'block' : 'none';
+        render();
+    });
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeModal('modalOverlay');
+        closeModal('createOverlay');
+    }
+});
+
+// Learn more toggle
+document.getElementById('learnMoreToggle').addEventListener('click', function() {
+    document.getElementById('learnMore').classList.toggle('open');
+});
+
+function render() {
+    updateStats();
+    renderCalendar();
+    renderList();
+}
+
+render();
+</script>
+</body>
+</html>
