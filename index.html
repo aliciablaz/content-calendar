@@ -28,6 +28,9 @@
             --bluesky: #0085FF;
             --linkedin: #0A66C2;
             --youtube: #FF0000;
+            --tiktok: #ff0050;
+            --facebook: #1877F2;
+            --threads: #a855f7;
             --bg: #0d0d0f;
             --page-bg: #0d0d0f;
             --card: #18181b;
@@ -56,7 +59,7 @@
 
         /* ===== HERO HEADER ===== */
         .hero-header {
-            background: #3B53C3;
+            background: #D9D9D9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -66,6 +69,56 @@
             max-width: 320px;
             width: 100%;
             height: auto;
+            overflow: visible;
+            cursor: pointer;
+        }
+        .scatter-block {
+            opacity: 0;
+            transform-origin: center center;
+            will-change: transform, opacity;
+        }
+        .scatter-block.entering {
+            animation: blockEnter var(--dur, 0.8s) cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s) both;
+        }
+        .scatter-block.scattering {
+            animation: blockScatter var(--dur, 0.5s) cubic-bezier(0.32, 0, 0.67, 0) var(--delay, 0s) both;
+        }
+        .scatter-block.returning {
+            animation: blockReturn var(--dur, 0.7s) cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s) both;
+        }
+        .hole-mask {
+            opacity: 0;
+            will-change: opacity;
+        }
+        .hole-mask.visible {
+            animation: holeAppear var(--dur, 0.5s) ease-out var(--delay, 0s) both;
+        }
+        .hole-mask.hiding {
+            animation: holeDisappear var(--dur, 0.4s) ease-in var(--delay, 0s) both;
+        }
+        @keyframes holeAppear {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+        @keyframes holeDisappear {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes blockEnter {
+            0% { opacity: 1; transform: translate(var(--tx), var(--ty)); }
+            80% { opacity: 1; }
+            100% { opacity: 0; transform: translate(0, 0); }
+        }
+        @keyframes blockScatter {
+            0% { opacity: 0; transform: translate(0, 0); }
+            15% { opacity: 1; }
+            100% { opacity: 1; transform: translate(var(--tx), var(--ty)); }
+        }
+        @keyframes blockReturn {
+            0% { opacity: 1; transform: translate(var(--tx), var(--ty)); }
+            80% { opacity: 1; }
+            100% { opacity: 0; transform: translate(0, 0); }
         }
         .page-content {
             background: var(--page-bg);
@@ -109,8 +162,8 @@
             align-items: center;
             gap: 8px;
             padding: 10px 20px;
-            background: #3B53C3;
-            color: #ffffff;
+            background: #25B6FF;
+            color: #000000;
             border: none;
             border-radius: var(--radius-sm);
             font-size: 14px;
@@ -118,7 +171,7 @@
             cursor: pointer;
             transition: all .15s;
         }
-        .create-btn:hover { background: #4a63d4; }
+        .create-btn:hover { background: #1da3e8; }
         .create-btn svg { width: 16px; height: 16px; }
 
         /* ===== STAT CARDS ===== */
@@ -319,6 +372,69 @@
         .post-chip.linkedin .chip-dot { background: var(--linkedin); }
         .post-chip.youtube { background: rgba(255,0,0,.12); color: #f87171; }
         .post-chip.youtube .chip-dot { background: var(--youtube); }
+        .post-chip.tiktok { background: rgba(255,0,80,.12); color: #fb7185; }
+        .post-chip.tiktok .chip-dot { background: var(--tiktok); }
+        .post-chip.facebook { background: rgba(24,119,242,.15); color: #60a5fa; }
+        .post-chip.facebook .chip-dot { background: var(--facebook); }
+        .post-chip.threads { background: rgba(168,85,247,.15); color: #c084fc; }
+        .post-chip.threads .chip-dot { background: var(--threads); }
+        .post-chip.blocker { background: rgba(239,68,68,.18); color: #fca5a5; border-left: 3px solid #ef4444; }
+        .post-chip.blocker .chip-dot { background: #ef4444; }
+        .list-item.blocker { background: rgba(239,68,68,.08); border-left: 3px solid #ef4444; }
+        .list-item.blocker .list-title { color: #fca5a5; }
+        .post-chip.afk { background: rgba(156,163,175,.18); color: #d1d5db; border-left: 3px solid #9ca3af; }
+        .post-chip.afk .chip-dot { background: #9ca3af; }
+        .post-chip.fyi { background: rgba(37,182,255,.08); color: #7dd3fc; border-left: 3px solid rgba(37,182,255,.4); font-style: italic; }
+        .post-chip.fyi .chip-dot { background: #25B6FF; }
+        .list-item.afk { background: rgba(156,163,175,.08); border-left: 3px solid #9ca3af; }
+        .list-item.afk .list-title { color: #d1d5db; }
+        .list-item.fyi { background: rgba(37,182,255,.05); border-left: 3px solid rgba(37,182,255,.4); }
+        .list-item.fyi .list-title { color: #7dd3fc; font-style: italic; }
+        .modal-blocker-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(239,68,68,.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239,68,68,.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal-blocker-badge svg { width: 13px; height: 13px; }
+        .modal-afk-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(156,163,175,.15);
+            color: #d1d5db;
+            border: 1px solid rgba(156,163,175,.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal-afk-badge svg { width: 13px; height: 13px; }
+        .modal-fyi-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(37,182,255,.1);
+            color: #7dd3fc;
+            border: 1px solid rgba(37,182,255,.25);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal-fyi-badge svg { width: 13px; height: 13px; }
 
         .more-count {
             font-size: 11px;
@@ -358,12 +474,14 @@
         .list-platform {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             font-size: 13px;
             font-weight: 600;
+            flex-wrap: wrap;
+            min-width: 0;
         }
         .list-dot {
-            width: 10px; height: 10px; border-radius: 50%;
+            width: 10px; height: 10px; min-width: 10px; min-height: 10px; border-radius: 50%; flex-shrink: 0;
         }
         .list-title { font-size: 14px; font-weight: 500; }
         .list-type {
@@ -384,6 +502,7 @@
         }
         .list-status.draft { background: rgba(245,158,11,.15); color: #fbbf24; }
         .list-status.scheduled { background: rgba(52,211,153,.15); color: #34d399; }
+        .list-status.published { background: rgba(99,102,241,.15); color: #818cf8; }
 
         /* ===== VIEW TOGGLE ===== */
         .view-toggle {
@@ -454,6 +573,9 @@
         .modal-platform-badge.bluesky { background: rgba(0,133,255,.15); color: #60a5fa; }
         .modal-platform-badge.linkedin { background: rgba(10,102,194,.15); color: #60a5fa; }
         .modal-platform-badge.youtube { background: rgba(255,0,0,.12); color: #f87171; }
+        .modal-platform-badge.tiktok { background: rgba(255,0,80,.12); color: #fb7185; }
+        .modal-platform-badge.facebook { background: rgba(24,119,242,.15); color: #60a5fa; }
+        .modal-platform-badge.threads { background: rgba(168,85,247,.15); color: #c084fc; }
         .modal-title { font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; font-weight: 400; }
         .modal-close {
             width: 32px; height: 32px;
@@ -492,6 +614,7 @@
         }
         .modal-status-badge.draft { background: rgba(245,158,11,.15); color: #fbbf24; }
         .modal-status-badge.scheduled { background: rgba(52,211,153,.15); color: #34d399; }
+        .modal-status-badge.published { background: rgba(99,102,241,.15); color: #818cf8; }
         .modal-section { margin-bottom: 20px; }
         .modal-section-title {
             font-size: 11px;
@@ -571,6 +694,11 @@
             color: var(--text);
         }
         .btn-cancel:hover { background: #2a2a2e; }
+        .form-group.error .form-input,
+        .form-group.error .form-select { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.12); }
+        .form-group.error .platform-checkboxes { outline: 2px solid #ef4444; outline-offset: 4px; border-radius: 8px; }
+        .form-group.error .form-label { color: #f87171; }
+        .form-error-msg { font-size: 12px; color: #f87171; margin-top: 4px; }
         .btn-save {
             padding: 10px 18px;
             background: #3B53C3;
@@ -582,6 +710,62 @@
             cursor: pointer;
         }
         .btn-save:hover { background: #4a63d4; }
+        .btn-delete {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            background: rgba(239,68,68,.1);
+            color: #f87171;
+            border: 1px solid rgba(239,68,68,.25);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            font-family: inherit;
+        }
+        .btn-delete:hover { background: rgba(239,68,68,.2); border-color: rgba(239,68,68,.4); }
+        .btn-delete svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .btn-edit {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            background: rgba(59,130,246,.1);
+            color: #60a5fa;
+            border: 1px solid rgba(59,130,246,.25);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            font-family: inherit;
+        }
+        .btn-edit:hover { background: rgba(59,130,246,.2); border-color: rgba(59,130,246,.4); }
+        .btn-edit svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .btn-share {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            background: rgba(52,211,153,.1);
+            color: var(--green);
+            border: 1px solid rgba(52,211,153,.25);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            font-family: inherit;
+        }
+        .btn-share:hover { background: rgba(52,211,153,.2); border-color: rgba(52,211,153,.4); }
+        .btn-share svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .modal-footer {
+            padding: 0 28px 24px;
+            display: flex;
+            justify-content: flex-end;
+        }
 
         /* ===== ASSET CAROUSEL ===== */
         .carousel-container {
@@ -751,6 +935,43 @@
             line-height: 1;
         }
 
+        /* ===== PLATFORM MULTI-SELECT ===== */
+        .platform-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .platform-check {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: 1.5px solid var(--border);
+            background: var(--card-elevated);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all .15s;
+            user-select: none;
+        }
+        .platform-check:hover { border-color: #3a3a3e; background: #27272b; }
+        .platform-check input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+        .platform-check.checked {
+            background: rgba(255,255,255,.08);
+            border-color: rgba(255,255,255,.2);
+            color: var(--text);
+        }
+        .platform-check-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            opacity: .5;
+        }
+        .platform-check.checked .platform-check-dot { opacity: 1; }
+
         /* ===== LEARN MORE DROPDOWN ===== */
         .learn-more {
             margin-top: 32px;
@@ -800,7 +1021,7 @@
             margin-top: 16px;
         }
         .learn-more-inner a {
-            color: #72B3FF;
+            color: #25B6FF;
             text-decoration: none;
             font-weight: 500;
         }
@@ -832,13 +1053,123 @@
             .list-item { grid-template-columns: 80px 90px 1fr; }
             .list-type, .list-status { display: none; }
         }
+
+        .sync-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            margin-left: 12px;
+            white-space: nowrap;
+        }
+        .sync-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--text-light);
+        }
+        .sync-dot.synced { background: var(--green); }
+        .sync-dot.syncing { background: var(--amber); animation: pulse 1s infinite; }
+        .sync-dot.error { background: #ef4444; }
+        .sync-dot.local { background: var(--text-light); }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .firebase-banner {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid var(--amber);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .firebase-banner h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--amber);
+            margin-bottom: 8px;
+        }
+        .firebase-banner p {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .firebase-banner code {
+            background: rgba(255,255,255,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.78rem;
+        }
+        .firebase-banner .btn-setup {
+            background: var(--amber);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .firebase-banner .btn-setup:hover { opacity: 0.9; }
+        .firebase-config-input {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            color: var(--text);
+            font-family: monospace;
+            font-size: 0.78rem;
+            min-height: 120px;
+            resize: vertical;
+            margin-bottom: 12px;
+        }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
 <!-- HERO HEADER -->
 <div class="hero-header">
-    <img src="logo.png" alt="Code For The People" class="hero-logo">
+    <svg class="hero-logo" id="heroLogo" viewBox="0 0 1495 1217" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="July 9 — Code For The People">
+        <!-- PEOPLE -->
+        <path d="M10.5734 1216.06V981.349L223.629 981.031L259.934 1010.65V1125.93L223.629 1155.87H126.177V1216.06H10.5734ZM126.177 1111.92H144.33V1024.66H126.177V1111.92Z" fill="black"/>
+        <path d="M271.046 1216.06V981.349H499.069V1056.51H386.649V1074.98H484.419V1122.43H386.649V1140.58H499.069V1216.06H271.046Z" fill="black"/>
+        <path d="M550.096 1216.06L513.79 1186.12V1010.65L550.096 981.031H726.846L763.151 1010.65V1186.12L726.846 1216.06H550.096ZM629.394 1172.11H647.547V1024.66H629.394V1172.11Z" fill="black"/>
+        <path d="M777.684 1216.06V981.349L990.739 981.031L1027.04 1010.65V1125.93L990.739 1155.87H893.287V1216.06H777.684ZM893.287 1111.92H911.44V1024.66H893.287V1111.92Z" fill="black"/>
+        <path d="M1038.16 1216.06V981.349H1153.76V1140.58H1241.66V1216.06H1038.16Z" fill="black"/>
+        <path d="M1256.33 1216.06V981.349H1484.35V1056.51H1371.94V1074.98H1469.7V1122.43H1371.94V1140.58H1484.35V1216.06H1256.33Z" fill="black"/>
+        <!-- JULY 9 -->
+        <path d="M146.373 234L110.255 204.218V114.872H225.264V190.277H243.323V0.496442H358.332V204.218L322.214 234H146.373Z" fill="#25B6FF"/>
+        <path d="M415.245 234L379.127 204.218V0.496442H494.136V190.277H512.195V0.496442H627.205V204.218L591.086 234H415.245Z" fill="#25B6FF"/>
+        <path d="M647.999 234V0.496442H763.008V158.911H850.453V234H647.999Z" fill="#25B6FF"/>
+        <path d="M881.832 234V169.05L815.614 112.021V0.496442H930.624V117.723H948.049V0.496442H1063.06V112.021L996.841 169.05V234H881.832Z" fill="#25B6FF"/>
+        <path d="M1183.58 234L1147.46 204.218V159.862H1255.5V190.277H1273.56V144.02H1180.09L1143.97 114.555V29.9616L1180.09 0.496442H1348.96L1385.08 29.9616V204.218L1348.96 234H1183.58ZM1255.5 98.08H1273.56V43.9021H1255.5V98.08Z" fill="#25B6FF"/>
+        <!-- CODE -->
+        <path d="M276.569 479.305L240.451 449.523V275.266L276.569 245.801H452.41L488.528 275.266V351.306H373.519V289.207H355.46V435.582H373.519V372.216H488.528V449.523L452.41 479.305H276.569Z" fill="black"/>
+        <path d="M539.105 479.305L502.986 449.523V274.95L539.105 245.484H714.945L751.064 274.95V449.523L714.945 479.305H539.105ZM617.995 435.582H636.055V288.89H617.995V435.582Z" fill="black"/>
+        <path d="M765.522 479.305V245.484H960.055L1013.6 292.375V432.097L960.055 479.305H765.522ZM880.531 435.582H898.59V288.89H880.531V435.582Z" fill="black"/>
+        <path d="M1028.06 479.305V245.801H1254.91V320.573H1143.07V338.949H1240.33V386.157H1143.07V404.216H1254.91V479.305H1028.06Z" fill="black"/>
+        <!-- FOR -->
+        <path d="M370.576 724.557V491.053H597.426V565.825H485.585V584.201H581.901V648.201H485.585V724.557H370.576Z" fill="black"/>
+        <path d="M648.191 724.557L612.072 694.775V520.201L648.191 490.736H824.031L860.15 520.201V694.775L824.031 724.557H648.191ZM727.081 680.834H745.141V534.142H727.081V680.834Z" fill="black"/>
+        <path d="M874.608 724.557V491.053H1086.57L1122.69 520.518V619.052L1100.82 636.795L1133.77 724.557H1013.7L996.27 648.517H989.617V724.557H874.608ZM989.617 595.29H1007.68V534.459H989.617V595.29Z" fill="black"/>
+        <!-- THE -->
+        <path d="M438.173 969.808V811.077H382.094V736.305H609.261V811.077H553.182V969.808H438.173Z" fill="black"/>
+        <path d="M616.947 969.808V736.305H731.956V807.591H750.015V736.305H865.025V969.808H750.015V882.68H731.956V969.808H616.947Z" fill="black"/>
+        <path d="M879.482 969.808V736.305H1106.33V811.077H994.492V829.453H1091.76V876.66H994.492V894.72H1106.33V969.808H879.482Z" fill="black"/>
+        <!-- Hole masks (bg-colored rects that appear on hover to fake missing chunks) -->
+        <g id="holeMasks"></g>
+        <!-- Scatter blocks container -->
+        <g id="scatterBlocks"></g>
+    </svg>
 </div>
 
 <!-- PAGE CONTENT -->
@@ -848,6 +1179,10 @@
 <div class="top-bar">
     <div class="top-bar-left">
         <h1>Code For The People — Social Planning</h1>
+        <span class="sync-indicator" id="syncIndicator">
+            <span class="sync-dot local" id="syncDot"></span>
+            <span id="syncLabel">Local only</span>
+        </span>
     </div>
     <button class="create-btn" id="createPostBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -884,6 +1219,9 @@
         <button class="filter-pill" data-platform="bluesky"><span class="dot" style="background:var(--bluesky)"></span>Bluesky</button>
         <button class="filter-pill" data-platform="linkedin"><span class="dot" style="background:var(--linkedin)"></span>LinkedIn</button>
         <button class="filter-pill" data-platform="youtube"><span class="dot" style="background:var(--youtube)"></span>YouTube</button>
+        <button class="filter-pill" data-platform="tiktok"><span class="dot" style="background:var(--tiktok)"></span>TikTok</button>
+        <button class="filter-pill" data-platform="facebook"><span class="dot" style="background:var(--facebook)"></span>Facebook</button>
+        <button class="filter-pill" data-platform="threads"><span class="dot" style="background:var(--threads)"></span>Threads</button>
     </div>
     <div class="view-toggle">
         <button class="view-btn active" data-view="calendar">Calendar</button>
@@ -910,6 +1248,19 @@
 <!-- LIST VIEW (inside same card area) -->
 <div class="calendar-card list-view" id="listView" style="display:none"></div>
 
+<!-- KEY ASSETS DROPDOWN -->
+<div class="learn-more" id="keyAssets">
+    <button class="learn-more-toggle" id="keyAssetsToggle">
+        <span>Key Assets</span>
+        <svg class="learn-more-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="learn-more-content">
+        <div class="learn-more-inner">
+            <p style="color: var(--text-light); font-style: italic; background: rgba(37,182,255,.08); border: 1px solid rgba(37,182,255,.2); border-radius: 8px; padding: 14px 16px; font-size: 13px; line-height: 1.5;">This section is not ready yet — logos, the final poster, and all approved assets will be uploaded here soon.</p>
+        </div>
+    </div>
+</div>
+
 <!-- LEARN MORE DROPDOWN -->
 <div class="learn-more" id="learnMore">
     <button class="learn-more-toggle" id="learnMoreToggle">
@@ -918,15 +1269,26 @@
     </button>
     <div class="learn-more-content">
         <div class="learn-more-inner">
-            <p>Content and links coming soon — this section will include resources, guides, and helpful links related to this social planning workflow.</p>
+            <p><strong>Code for the People</strong> is a documentary short film about the open web, open source, and digital ownership, directed by Bao Nguyen and presented by Automattic. The film premieres July 1 at Crosby Street Hotel in NYC, followed by a screening at KQED in San Francisco (July 8 or 15), with a global digital release on July 9 at <a href="https://codeforthepeople.com">codeforthepeople.com</a>.</p>
+            <p>The <strong>Creative Lab / Design Core team</strong> is responsible for all visual materials powering the posts in this calendar — social avatars, poster variations, quote card templates, Instagram Story templates, video overlays, motion bumpers, and a Figma/Canva playground for ongoing asset creation. Design work is tracked in <a href="https://linear.app/a8c/issue/DSGCLAB-862/socials-assets-promotion">Linear DSGCLAB-862</a>. The creative approach mirrors the care and thoughtfulness of the 20th anniversary and Automattic HQ projects.</p>
             <ul class="learn-more-links">
-                <li><a href="#">→ Placeholder link 1</a></li>
-                <li><a href="#">→ Placeholder link 2</a></li>
-                <li><a href="#">→ Placeholder link 3</a></li>
+                <li><a href="https://creativelabp2.wordpress.com/2026/05/20/1-project-overview-statusstatus-openteamluskisonyourside-bmcdede/">&#8594; Design Request P2 Post (Creative Lab)</a></li>
+                <li><a href="https://docs.google.com/document/d/1-NKibvXiR6pgua4ZD8ZJA7bFFzYV1Tqyh3t8zFPZg0g/edit?tab=t.0">&#8594; Design Request: Asset Specs & Deliverables</a></li>
+                <li><a href="https://docs.google.com/document/d/1cpGOyunExm9WsW8spM7U2KKz9QvmjAdzCP2qoHIbmM0/edit?tab=t.9ixq3ai4v6qv">&#8594; CFTP Social Marketing Notes & Strategy</a></li>
+                <li><a href="https://docs.google.com/document/d/1NHYSO1nGRHApcp1FCjEeUfadYzjszZkkreaWRreup0g/edit">&#8594; Social Marketing Proposal (Full Plan)</a></li>
+                <li><a href="https://docs.google.com/document/d/1c4tMiCHyUSBzYRmQXL7q890IwqsgDhFxDw0163gBG10/edit">&#8594; Master Project Overview</a></li>
+                <li><a href="https://docs.google.com/document/d/1qCRinVPZ6tjOSYARcGX8kAom66F0mtMPCOI7FJ9hZds/edit">&#8594; 021 Strategy Scope of Work</a></li>
+                <li><a href="https://docs.google.com/document/d/1q3txiXeTSBXwM1DgxYSerJWAKwH1vqd38Py9rCr9sPg/edit">&#8594; Website Copy Draft (codeforthepeople.com)</a></li>
+                <li><a href="https://docs.google.com/spreadsheets/d/1lRlRpaOQhoU3p-dyXjTD7V65NzcUJz86/edit?gid=37098522#gid=37098522">&#8594; Messaging Architecture</a></li>
             </ul>
+            <p style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+                <button onclick="resetToDefaults()" style="background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.8rem; font-family: inherit;">Reset all posts to defaults</button>
+                <span style="display: block; margin-top: 6px; font-size: 0.75rem; color: var(--text-light);">Changes sync automatically across all team members when Firebase is connected. Use this to restore the original 55-post calendar.</span>
+            </p>
         </div>
     </div>
 </div>
+
 
 </div><!-- end .page-content -->
 
@@ -941,6 +1303,7 @@
             <button class="modal-close" id="modalClose">&times;</button>
         </div>
         <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer" id="modalFooter" style="display:none"></div>
     </div>
 </div>
 
@@ -958,13 +1321,11 @@
                     <input type="date" class="form-input" id="newDate">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Platform</label>
-                    <select class="form-select" id="newPlatform">
-                        <option value="instagram">Instagram</option>
-                        <option value="x">Twitter/X</option>
-                        <option value="bluesky">Bluesky</option>
-                        <option value="linkedin">LinkedIn</option>
-                        <option value="youtube">YouTube</option>
+                    <label class="form-label">Post Status</label>
+                    <select class="form-select" id="newStatus">
+                        <option value="draft">Draft</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="published">Published</option>
                     </select>
                 </div>
             </div>
@@ -974,20 +1335,35 @@
                     <input type="text" class="form-input" id="newType" placeholder="e.g. Carousel, Reel, Thread">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Status</label>
-                    <select class="form-select" id="newStatus">
-                        <option value="draft">Draft</option>
-                        <option value="scheduled">Scheduled</option>
+                    <label class="form-label">Status of Assets</label>
+                    <select class="form-select" id="newAssetStatus">
+                        <option value="todo">To Do</option>
+                        <option value="in-production">In Production</option>
+                        <option value="in-review">In Review</option>
+                        <option value="shipped">Shipped</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-label">Title</label>
-                <input type="text" class="form-input" id="newTitle" placeholder="Post title">
+                <label class="form-label">Platform</label>
+                <div class="platform-checkboxes" id="newPlatformGroup">
+                    <div class="platform-check"><input type="checkbox" value="instagram"><span class="platform-check-dot" style="background:var(--instagram)"></span>Instagram</div>
+                    <div class="platform-check"><input type="checkbox" value="x"><span class="platform-check-dot" style="background:var(--x)"></span>Twitter/X</div>
+                    <div class="platform-check"><input type="checkbox" value="bluesky"><span class="platform-check-dot" style="background:var(--bluesky)"></span>Bluesky</div>
+                    <div class="platform-check"><input type="checkbox" value="linkedin"><span class="platform-check-dot" style="background:var(--linkedin)"></span>LinkedIn</div>
+                    <div class="platform-check"><input type="checkbox" value="youtube"><span class="platform-check-dot" style="background:var(--youtube)"></span>YouTube</div>
+                    <div class="platform-check"><input type="checkbox" value="tiktok"><span class="platform-check-dot" style="background:var(--tiktok)"></span>TikTok</div>
+                    <div class="platform-check"><input type="checkbox" value="facebook"><span class="platform-check-dot" style="background:var(--facebook)"></span>Facebook</div>
+                    <div class="platform-check"><input type="checkbox" value="threads"><span class="platform-check-dot" style="background:var(--threads)"></span>Threads</div>
+                </div>
             </div>
             <div class="form-group">
-                <label class="form-label">Draft Copy</label>
-                <textarea class="form-textarea" id="newCopy" placeholder="Write your post copy here..."></textarea>
+                <label class="form-label">Post Description</label>
+                <input type="text" class="form-input" id="newTitle" placeholder="Describe your post">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Caption</label>
+                <textarea class="form-textarea" id="newCopy" placeholder="Write your caption here..."></textarea>
             </div>
             <div class="form-group">
                 <label class="form-label">Hashtags (comma-separated)</label>
@@ -1007,20 +1383,9 @@
                 </div>
                 <div class="upload-preview" id="uploadPreview"></div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Status of Assets</label>
-                    <select class="form-select" id="newAssetStatus">
-                        <option value="todo">To Do</option>
-                        <option value="in-production">In Production</option>
-                        <option value="in-review">In Review</option>
-                        <option value="shipped">Shipped</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Google Drive Link</label>
-                    <input type="url" class="form-input" id="newDriveLink" placeholder="https://drive.google.com/...">
-                </div>
+            <div class="form-group">
+                <label class="form-label">Google Drive Link</label>
+                <input type="url" class="form-input" id="newDriveLink" placeholder="https://drive.google.com/...">
             </div>
             <div class="form-actions">
                 <button class="btn-cancel" id="createCancelBtn">Cancel</button>
@@ -1031,45 +1396,1361 @@
 </div>
 
 <script>
-const POSTS = [];
+/* ===== LOGO SCATTER ANIMATION ===== */
+(function initLogoAnimation() {
+    var svg = document.getElementById('heroLogo');
+    var container = document.getElementById('scatterBlocks');
+    var ns = 'http://www.w3.org/2000/svg';
+    var cx = 747, cy = 608; // viewBox center
+
+    // Sample points along the letter paths to place scatter blocks
+    var letterPaths = svg.querySelectorAll('path[fill]');
+    var samplePoints = [];
+    letterPaths.forEach(function(p) {
+        var len = p.getTotalLength();
+        var fill = p.getAttribute('fill');
+        // Sample evenly along the path perimeter
+        var step = Math.max(80, len / 12);
+        for (var d = 0; d < len; d += step) {
+            var pt = p.getPointAtLength(d);
+            samplePoints.push({ x: pt.x, y: pt.y, fill: fill });
+        }
+    });
+
+    // Pick ~40 well-distributed blocks from the samples
+    var blockCount = 40;
+    var stride = Math.max(1, Math.floor(samplePoints.length / blockCount));
+    var blocks = [];
+    for (var i = 0; i < samplePoints.length && blocks.length < blockCount; i += stride) {
+        blocks.push(samplePoints[i]);
+    }
+
+    // Create the rect elements + hole masks
+    var blockSize = 95;
+    var holeSize = 80;
+    var bgColor = '#D9D9D9';
+    var rects = [];
+    var holeMaskContainer = document.getElementById('holeMasks');
+    var holes = [];
+
+    blocks.forEach(function(b, i) {
+        // Scatter block (flies outward)
+        var rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', b.x - blockSize / 2);
+        rect.setAttribute('y', b.y - blockSize / 2);
+        rect.setAttribute('width', blockSize);
+        rect.setAttribute('height', blockSize);
+        rect.setAttribute('fill', b.fill);
+        rect.classList.add('scatter-block');
+        rect._home = { x: b.x, y: b.y };
+        container.appendChild(rect);
+        rects.push(rect);
+
+        // Hole mask (bg-colored rect that appears on letters to fake a missing chunk)
+        // Only create for ~60% of blocks to look organic
+        if (Math.random() < 0.6) {
+            var hole = document.createElementNS(ns, 'rect');
+            hole.setAttribute('x', b.x - holeSize / 2);
+            hole.setAttribute('y', b.y - holeSize / 2);
+            hole.setAttribute('width', holeSize);
+            hole.setAttribute('height', holeSize);
+            hole.setAttribute('fill', bgColor);
+            hole.classList.add('hole-mask');
+            holeMaskContainer.appendChild(hole);
+            holes.push(hole);
+            // Link this hole to its scatter block so they share timing
+            rect._hole = hole;
+        }
+    });
+
+    function assignScatterVectors(scale) {
+        rects.forEach(function(r) {
+            var hx = r._home.x, hy = r._home.y;
+            var angle = Math.atan2(hy - cy, hx - cx) + (Math.random() - 0.5) * 1.8;
+            var dist = (scale || 1) * (500 + Math.random() * 1000);
+            r.style.setProperty('--tx', (Math.cos(angle) * dist) + 'px');
+            r.style.setProperty('--ty', (Math.sin(angle) * dist) + 'px');
+        });
+    }
+
+    function triggerAnimation(className, durRange, delayRange) {
+        rects.forEach(function(r) {
+            r.className.baseVal = 'scatter-block';
+            void r.offsetHeight;
+            var dur = durRange[0] + Math.random() * (durRange[1] - durRange[0]);
+            var delay = delayRange[0] + Math.random() * (delayRange[1] - delayRange[0]);
+            r.style.setProperty('--dur', dur + 's');
+            r.style.setProperty('--delay', delay + 's');
+            r.classList.add(className);
+        });
+    }
+
+    // Entrance animation on load
+    assignScatterVectors(1.2);
+    triggerAnimation('entering', [0.8, 1.4], [0, 0.6]);
+
+    // Hover: scatter out + show holes (synced timing)
+    svg.addEventListener('mouseenter', function() {
+        assignScatterVectors(1);
+        rects.forEach(function(r) {
+            r.className.baseVal = 'scatter-block';
+            void r.offsetHeight;
+            var dur = 0.4 + Math.random() * 0.3;
+            var delay = Math.random() * 0.2;
+            r.style.setProperty('--dur', dur + 's');
+            r.style.setProperty('--delay', delay + 's');
+            r.classList.add('scattering');
+            // Sync paired hole to same timing
+            if (r._hole) {
+                r._hole.className.baseVal = 'hole-mask';
+                void r._hole.offsetHeight;
+                r._hole.style.setProperty('--dur', dur + 's');
+                r._hole.style.setProperty('--delay', delay + 's');
+                r._hole.classList.add('visible');
+            }
+        });
+    });
+
+    // Mouse leave: return + hide holes (synced timing)
+    svg.addEventListener('mouseleave', function() {
+        rects.forEach(function(r) {
+            r.className.baseVal = 'scatter-block';
+            void r.offsetHeight;
+            var dur = 0.5 + Math.random() * 0.4;
+            var delay = Math.random() * 0.25;
+            r.style.setProperty('--dur', dur + 's');
+            r.style.setProperty('--delay', delay + 's');
+            r.classList.add('returning');
+            // Sync paired hole to same timing
+            if (r._hole) {
+                r._hole.className.baseVal = 'hole-mask';
+                void r._hole.offsetHeight;
+                r._hole.style.setProperty('--dur', dur + 's');
+                r._hole.style.setProperty('--delay', delay + 's');
+                r._hole.classList.add('hiding');
+            }
+        });
+    });
+})();
+</script>
+
+<script>
+const DEFAULT_POSTS = [
+    // ============================================================
+    // PRE-LAUNCH: Account Setup & Teaser (May 28–31)
+    // ============================================================
+    {
+        date: "2026-05-28",
+        platforms: ["instagram", "tiktok", "bluesky"],
+        type: "Profile Setup",
+        status: "draft",
+        title: "Launch CFTP social accounts — set avatars, bios & banners",
+        copy: "Set up dedicated Code for the People accounts. Upload avatar, write bio, set banner (BSKY). Bio direction: 'A documentary about the open web. Coming July 2026. codeforthepeople.com'",
+        hashtags: [],
+        notes: "PRIORITY: Need social avatars (1X profile pic for TikTok, IG, BSKY) + 1 banner/header at 16×9 for BSKY. Follow specs from Automattic avatar redesign. These are yellow-highlighted priority items in the design request.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-05-29",
+        platforms: ["instagram"],
+        type: "Grid Post (9 images)",
+        status: "draft",
+        title: "Instagram grid tiled poster — 9-post mosaic",
+        copy: "Upload 9 images to form the full CFTP poster when viewed on the profile grid. Each tile is a piece of the complete poster image. Post in reverse order (bottom-right first) so the grid assembles correctly.",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary"],
+        notes: "Need 9X images at 4×5 aspect ratio, each representing one tile of the poster broken into a 3×3 grid. See grid example reference in design doc. This populates the new IG profile immediately with a strong visual identity.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-05",
+        platforms: ["instagram", "tiktok", "bluesky", "x", "threads"],
+        type: "Static Image / Teaser",
+        status: "draft",
+        title: "\"Something is coming\" — mystery teaser post",
+        copy: "Something is coming.\n\nThe internet wasn't built for this. But it was built for what comes next.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#ComingSoon"],
+        notes: "Cinematic, mysterious — a dark film still or abstract open-web visual. Minimal text overlay. This is the first public post from the CFTP accounts. Tone: intrigue, not corporate announcement. Sizes: 1×1 (feed), 9×16 (Stories/TikTok).",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-05",
+        platforms: ["linkedin", "x", "facebook"],
+        type: "Cross-post / Amplification",
+        status: "draft",
+        title: "Amplify teaser via @WordPress & Automattic channels",
+        copy: "Something new is coming from the open-source community. Stay tuned.\n\ncodeforthepeople.com",
+        hashtags: ["#OpenSource", "#OpenWeb"],
+        notes: "Repost/share the CFTP teaser from Automattic LinkedIn, @WordPress X, and Facebook. Framing: hint at something exciting from the community, not a corporate announcement.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // WEEK 1: Teaser Content & Build-up (June 2–8)
+    // ============================================================
+    {
+        date: "2026-06-09",
+        platforms: ["instagram", "tiktok", "youtube", "x", "bluesky", "facebook", "threads"],
+        type: "Video (60-90s)",
+        status: "draft",
+        title: "TRAILER DROP — primary launch moment",
+        copy: "The internet is at an inflection point.\n\nCode for the People — a new documentary about the open web, open source, and the fight for digital ownership.\n\nWatch the trailer now. Full film coming July 2026.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary", "#OpenSource", "#DigitalFreedom"],
+        notes: "THIS IS THE BIGGEST MOMENT PRE-PREMIERE. Trailer produced by Mark Woollen & Associates (MWA). Post simultaneously across ALL platforms including Dotorg and Bao Nguyen's channels. IG Reel + TikTok + YouTube + X video + BSKY + FB + Threads. Need: CFTP logo overlay (transparent PNG) on trailer + motion bumper end card. Coordinate with @WordPress, Dotorg, and Bao for same-day cross-posting.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-09",
+        platforms: ["linkedin", "x", "facebook"],
+        type: "Video / Cross-post",
+        status: "draft",
+        title: "Trailer amplification — Automattic, @WordPress & Dotorg channels",
+        copy: "We're proud to share the trailer for Code for the People — a documentary exploring why the open web matters more than ever.\n\nFeaturing voices from across the open-source community.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenSource", "#WordPress"],
+        notes: "Cross-post trailer on Automattic LinkedIn, @WordPress X, @WordPress Facebook, and Dotorg channels. Use Automattic/WordPress framing, not CFTP-native voice. Bao Nguyen also cross-posts from personal channels.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-09",
+        platforms: ["instagram"],
+        type: "Story (9×16)",
+        status: "draft",
+        title: "IG Stories — trailer announcement + \"Watch now\"",
+        copy: "The trailer is here. Watch now on our page. Link in bio.",
+        hashtags: [],
+        notes: "Use 'Watch now' Story template. Multiple slides: countdown-style build to trailer link. Swipe-up / link sticker to YouTube or IG Reel.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-10",
+        platforms: ["tiktok", "instagram", "x"],
+        type: "Short Video (15-30s)",
+        status: "draft",
+        title: "Trailer cutdown — strongest 15-30s hook",
+        copy: "The internet wasn't always like this.\n\nCode for the People — coming July 2026.",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary", "#Tech"],
+        notes: "Shorter cutdown of the MWA trailer — strongest 5-second hook for the opening. Optimized for TikTok and Reels autoplay. Need logo overlay + end bumper. This is the paid-media-ready asset too (YouTube pre-roll uses strongest 5-sec hook).",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-10",
+        platforms: ["instagram", "x", "bluesky", "facebook"],
+        type: "Static Image",
+        status: "draft",
+        title: "\"Coming Soon\" poster reveal — premiere date announcement",
+        copy: "Mark your calendar.\n\nCode for the People premieres July 2026.\n\nA documentary about the open web, open source, and why digital ownership matters.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#ComingSoon", "#Documentary"],
+        notes: "PRIORITY DESIGN ASSET: 'Coming Soon'/Premiere Date poster with movie title. Deliver in all four aspect ratios: 1×1, 9×16, 16×9, 4×5. This is a yellow-highlighted item in the design request. Exactly 1 month before digital release day (July 10). Cross-post including Dotorg channels.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-10",
+        platforms: ["linkedin", "x", "facebook"],
+        type: "Static Image",
+        status: "draft",
+        title: "Coming Soon poster — Automattic & Dotorg channels",
+        copy: "Code for the People — a documentary about why the open web matters — premieres July 2026.\n\nFrom the community behind WordPress, which powers 40% of the web.\n\ncodeforthepeople.com",
+        hashtags: ["#OpenSource", "#WordPress", "#OpenWeb"],
+        notes: "Same 'Coming Soon' poster but posted from Automattic accounts with Automattic framing. LinkedIn especially important for reaching enterprise/CTO audience.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-04",
+        platforms: ["instagram", "x", "tiktok"],
+        type: "Static / Text Graphic",
+        status: "draft",
+        title: "Bold text #1 — \"The internet wasn't always like this.\"",
+        copy: "The internet wasn't always like this.\n\nCode for the People — coming July 2026.\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Internet"],
+        notes: "Bold text template — provocative statement in large type over film-branded background. Designed to stop scrollers. Format: 1×1 for feed. Keep it stark and cinematic. This is a recurring content format throughout the campaign.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-11",
+        platforms: ["instagram", "tiktok"],
+        type: "Carousel / Video",
+        status: "draft",
+        title: "Director spotlight — Bao Nguyen introduction",
+        copy: "Meet the director.\n\nBao Nguyen is an acclaimed filmmaker whose work has screened at Sundance, Tribeca, and around the world.\n\nHis latest: Code for the People — a documentary about the open web.\n\nComing July 2026.",
+        hashtags: ["#CodeForThePeople", "#BaoNguyen", "#Documentary", "#Filmmaker"],
+        notes: "Carousel with Bao's photo/headshot + still from set + film poster. Or direct-to-camera video if available from Bao. Scott Willey is primary contact for Bao/East Films. Darian is drafting a promotional ask for Bao.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // WEEK 2: Trailer Drop & Poster Reveal (June 9–15)
+    // ============================================================
+    {
+        date: "2026-06-12",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "Quote Card",
+        status: "draft",
+        title: "Quote card #2 — Matt Mullenweg on digital ownership",
+        copy: "\"You are a tenant on those platforms... That's where not being a tenant, but being a landowner on the web is critical.\"\n\n— Code for the People\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#DigitalOwnership", "#OpenWeb"],
+        notes: "Cast member quote card — Matt Mullenweg photo side by side with quote. Use cast quote card template (1×1). Matt is the clear narrative voice in the film so this attribution is safe.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-08",
+        platforms: ["instagram", "tiktok", "x"],
+        type: "Static / Text Graphic",
+        status: "draft",
+        title: "Bold text #2 — \"This platform has your data.\"",
+        copy: "This platform has your data.\n\nThere's another way.\n\nCode for the People — coming July 2026.\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#DigitalOwnership", "#OpenWeb", "#DataPrivacy"],
+        notes: "Bold text template — attention-grabbing provocation. Builds tension before trailer drop. Platform-specific Easter egg copy if bandwidth allows: X → 'And caps your messages per day unless you're verified' / IG → 'And sold your face to train their AI' / TikTok → 'And could go dark again any time'. 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-16",
+        platforms: ["instagram", "tiktok", "bluesky", "x"],
+        type: "Carousel / Slideshow",
+        status: "draft",
+        title: "\"What is open source?\" — educational slideshow",
+        copy: "Open source explained in 5 slides.\n\n1. Open source = code anyone can read, modify, and share\n2. It powers 96% of the world's top websites\n3. WordPress alone runs 40% of the web\n4. It's the foundation of AI, cloud computing, and the modern internet\n5. And it depends on people like you\n\nCode for the People — coming July 2026.",
+        hashtags: ["#OpenSource", "#CodeForThePeople", "#TechEducation", "#OpenWeb"],
+        notes: "Instagram carousel (5 slides) / TikTok slideshow. Use branded slide templates with CFTP visual identity. Educational, accessible — designed to reach beyond the open-source bubble. This is key for audience segments 4 and 5 (next-gen technologists and culture-curious).",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-15",
+        platforms: ["instagram"],
+        type: "Photo Post",
+        status: "draft",
+        title: "Film still + personal caption from director or cast",
+        copy: "Behind every line of code is a person who believes the web should belong to everyone.\n\nCode for the People — July 2026.",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#BehindTheScenes"],
+        notes: "Cinematic film still with CFTP logo overlay (small, bottom corner). Ideally an IG collab post with Bao Nguyen or Matt Mullenweg's personal account. Swipe copy to be provided to cast. Scott Willey coordinates with Bao.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // WEEK 3: Momentum Building (June 15–21)
+    // ============================================================
+    {
+        date: "2026-06-24",
+        platforms: ["instagram", "x", "bluesky", "tiktok"],
+        type: "Static Image",
+        status: "draft",
+        title: "\"15 days\" — countdown to digital release",
+        copy: "15 days.\n\nCode for the People drops July 9.\n\nFree to watch. Free to share.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Countdown", "#OpenWeb"],
+        notes: "Countdown static asset — bold number '15' with film branding. This kicks off the countdown series targeting the July 9 digital release. Need countdown asset templates (TBD in design request). 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-17",
+        platforms: ["instagram", "tiktok", "x", "bluesky", "threads"],
+        type: "Creator Video (Abby)",
+        status: "draft",
+        title: "Archival internet content — nostalgic 2000s web edit",
+        copy: "The web used to feel different.\n\nGeoCities. AIM away messages. Blogrolls. Homepages you actually owned.\n\nWhat happened? And can we get it back?\n\nCode for the People — July 9.",
+        hashtags: ["#CodeForThePeople", "#InternetNostalgia", "#OpenWeb", "#Y2K"],
+        notes: "Creator video by Abby Espritu — edit-style video using nostalgic 2000s-era internet imagery (GeoCities, MySpace, early WordPress, AIM, etc.). Abby handles production. Cross-social. High viral potential.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-18",
+        platforms: ["instagram", "x"],
+        type: "Quote Card",
+        status: "draft",
+        title: "Quote card #4 — platform decay / enshittification",
+        copy: "\"First, platforms find a way to lock users in, and once it's hard for them to leave, they make things worse for them in order to make things better for business customers.\"\n\n— Code for the People\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Enshittification", "#OpenWeb", "#DigitalRights"],
+        notes: "Movie quote card with documentary imagery. This quote hits hard on platform critique — high shareability on X especially. 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-19",
+        platforms: ["tiktok", "instagram", "x"],
+        type: "Static / Text Graphic",
+        status: "draft",
+        title: "Bold text #3 — \"You don't own your home on the internet.\"",
+        copy: "You don't own your home on the internet.\n\nYet.\n\nCode for the People — July 9.\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#DigitalOwnership", "#OpenWeb"],
+        notes: "Bold text template. Short, punchy, scroll-stopping. 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-29",
+        platforms: ["instagram", "x", "bluesky", "tiktok"],
+        type: "Static Image",
+        status: "draft",
+        title: "\"10 days\" — countdown to digital release",
+        copy: "10 days.\n\nCode for the People drops July 9.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Countdown", "#OpenWeb"],
+        notes: "Countdown static asset — bold '10' with film branding. Targeting July 9 digital release. 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-23",
+        platforms: ["instagram", "tiktok", "youtube", "x", "bluesky", "facebook", "threads"],
+        type: "Video (Extended Cut)",
+        status: "draft",
+        title: "EXTENDED CUT TRAILER — longer version drop",
+        copy: "See more of the story.\n\nThe extended trailer for Code for the People — a documentary about the open web, open source, and digital ownership.\n\nFull film drops July 9.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary", "#OpenSource", "#Trailer"],
+        notes: "Extended cut of the MWA trailer — longer version with additional footage and scenes not in the initial cut. Cross-social drop across ALL platforms. Coordinate with @WordPress and Dotorg for amplification. This is the second major trailer moment before the premiere, designed to re-engage people who saw the first trailer and reach new audiences.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // WEEK 4: Final Countdown to NYC (June 23–30)
+    // ============================================================
+    {
+        date: "2026-07-02",
+        platforms: ["instagram", "x", "bluesky", "tiktok"],
+        type: "Static Image",
+        status: "draft",
+        title: "\"One week\" — countdown to digital release",
+        copy: "One week.\n\nWe just screened in New York. Now the whole world gets to see it.\n\nCode for the People drops July 9.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Countdown", "#OpenWeb"],
+        notes: "Countdown asset with '7 DAYS' and film branding. Posts alongside NYC recap — bridges from premiere buzz to digital release countdown. 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-24",
+        platforms: ["linkedin", "facebook", "x"],
+        type: "Static Image / Cross-post",
+        status: "draft",
+        title: "@WordPress amplification — film endorsement post",
+        copy: "Next week, a new documentary tells the story of the open web — and why it matters more than ever.\n\nCode for the People features voices from across the WordPress and open-source community.\n\nJuly 9. codeforthepeople.com",
+        hashtags: ["#WordPress", "#OpenSource", "#CodeForThePeople"],
+        notes: "Posted from @WordPress / Automattic channels. Poster variation. Includes WordPress VIP enterprise clients in audience targeting (Time, CNN, Vox, News Corp — CTO types and editorial).",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-25",
+        platforms: ["instagram", "x", "bluesky", "facebook", "threads", "linkedin"],
+        type: "Static Image / Poster",
+        status: "draft",
+        title: "Poster variation 2 — SF & NYC screening info",
+        copy: "Two cities. Two screenings. One film.\n\nCode for the People\n\nNew York City — July 1, Crosby Street Hotel\nSan Francisco — July 8, KQED\n\nRSVP at codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#NYC", "#SanFrancisco", "#OpenWeb", "#Documentary", "#KQED"],
+        notes: "Second poster variation featuring both screening locations and dates. Cross-social including Dotorg channels. This is a key RSVP driver with both events now locked. Use updated poster design with city/venue/date details. Deliver in all four aspect ratios: 1x1, 9x16, 16x9, 4x5.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-25",
+        platforms: ["instagram", "tiktok"],
+        type: "Carousel / Slideshow",
+        status: "draft",
+        title: "\"Why this film matters right now\" — 5 slides",
+        copy: "Why Code for the People matters right now:\n\n1. Platform consolidation is at an all-time high\n2. AI is accelerating the centralization of power\n3. Creators are losing control of their audiences\n4. Open source is the counterweight — and it's under-resourced\n5. The next chapter of the internet hasn't been written yet\n\nJuly 9. codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#DigitalRights", "#AI"],
+        notes: "5-slide branded carousel. Use slide templates. Intellectually serious but accessible. This post bridges from film promo to movement messaging.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-06",
+        platforms: ["instagram", "x", "bluesky", "tiktok", "threads"],
+        type: "Static Image",
+        status: "draft",
+        title: "\"3 days\" — countdown to digital release",
+        copy: "3 days.\n\nCode for the People drops July 9.\n\nFree to watch. Free to share.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Countdown", "#OpenWeb"],
+        notes: "Countdown asset — bold '3' with cinematic film still. All platforms. High urgency energy. Targeting July 9 digital release.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-26",
+        platforms: ["instagram"],
+        type: "Photo / Collab Post",
+        status: "draft",
+        title: "Matt Mullenweg personal post — IG collaboration",
+        copy: "I've spent 20 years building WordPress because I believe the web should belong to everyone.\n\nCode for the People tells that story — not just mine, but the story of everyone who's contributed to the open web.\n\nJuly 9. codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#WordPress", "#OpenSource", "#OpenWeb"],
+        notes: "Instagram collaboration post between CFTP account and Matt's personal account — merges audiences. Swipe copy provided. Use film still with Matt. This is a key amplification moment. Scott coordinates timing with Matt.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-07",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "Static Image",
+        status: "draft",
+        title: "\"2 days\" — countdown to digital release",
+        copy: "2 days.\n\nCode for the People drops July 9.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Countdown", "#OpenWeb"],
+        notes: "Countdown asset — bold '2' with film branding. Posts alongside SF screening announcement for a double-hit day. 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-08",
+        platforms: ["instagram", "x", "bluesky", "tiktok", "threads"],
+        type: "Static Image",
+        status: "draft",
+        title: "\"Tomorrow.\" — countdown to digital release (SF screening day)",
+        copy: "Tomorrow.\n\nCode for the People drops everywhere July 9.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Countdown"],
+        notes: "Single cinematic film still, minimal text — 'Tomorrow.' + URL. Maximum restraint, maximum impact. All platforms. 1×1 format. Posts on SF screening day for a powerful double-hit: live event energy + eve-of-release countdown.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // NYC PREMIERE DAY: July 1
+    // ============================================================
+    {
+        date: "2026-07-01",
+        platforms: ["instagram"],
+        type: "Stories / Real-time",
+        status: "draft",
+        title: "Real-time Stories from NYC event — arrivals, venue, crowd",
+        copy: "Live from Crosby Street Hotel, NYC. Code for the People screening tonight.",
+        hashtags: [],
+        notes: "Real-time IG Stories throughout the evening. Photographer will be on-site (IRL/Megan Marcel's team handles live capture). Use Story templates + logo overlay on captures. Content: venue setup, arrivals, crowd energy, screening room, panel discussion, networking reception. Events will NOT be live-streamed but will be professionally captured.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-01",
+        platforms: ["instagram", "x", "tiktok"],
+        type: "Photo / Video",
+        status: "draft",
+        title: "Live event captures — photos and short clips",
+        copy: "Tonight in New York City. Code for the People.\n\nThank you to everyone who came to be part of this conversation about the open web.",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#NYC"],
+        notes: "Rapid-turn photos and short video clips from the event posted during/immediately after. Use logo overlay on all captures. Prioritize: crowd shots, panel discussion moments, audience reactions, venue atmosphere.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-02",
+        platforms: ["instagram"],
+        type: "Carousel",
+        status: "draft",
+        title: "Post-screening recap photo carousel",
+        copy: "What a night.\n\nThank you New York. Code for the People launched tonight at Crosby Street Hotel with a screening, conversation, and community.\n\nThis is just the beginning.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#NYC", "#Documentary"],
+        notes: "Curated carousel of 6-10 best event photos. Post same evening or first thing next morning. Branded with CFTP overlay/logo.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-02",
+        platforms: ["x", "bluesky"],
+        type: "Quote Card / Text",
+        status: "draft",
+        title: "Key quote from the NYC talkback",
+        copy: "From tonight's conversation at Code for the People:\n\n[Best quote from panel discussion]\n\nFull film coming soon. codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb"],
+        notes: "Pull the strongest quote from the talkback/Q&A (moderated by Variety's Todd Spangler). Post as text on X and BSKY, or as a quick quote card. ~80% of attendees gravitate toward AI conversation — look for quotes that pivot back to open source themes.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // POST-NYC / PRE-SF (July 2–7)
+    // ============================================================
+    {
+        date: "2026-07-02",
+        platforms: ["instagram", "facebook"],
+        type: "Carousel",
+        status: "draft",
+        title: "NYC event recap carousel — best moments",
+        copy: "Last night in New York.\n\nCode for the People screened at Crosby Street Hotel with a conversation about the future of the open web.\n\nStay tuned — the full film goes live soon.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#NYC", "#Documentary"],
+        notes: "Curated photo carousel of NYC event highlights: panel, audience, venue, networking. Professional photography from IRL team.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-02",
+        platforms: ["x", "linkedin", "facebook"],
+        type: "Link Share / Quote Card",
+        status: "draft",
+        title: "Variety partnership content — share & amplify",
+        copy: "Variety covers Code for the People — the new documentary exploring the open web and why it matters.\n\nRead the full piece and watch the conversation:\n[Variety link]",
+        hashtags: ["#CodeForThePeople", "#Variety", "#OpenWeb", "#Documentary"],
+        notes: "Variety deliverables include: full-length conversation video, social cutdown (30-60s), video recap article on Variety.com, cross-platform article page takeover, native social posts, and dedicated email blast. Embargo lift timing coordinated with 021/DMAG. Share Variety article + tag @Variety.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-03",
+        platforms: ["instagram", "tiktok", "youtube"],
+        type: "Video (60s clip)",
+        status: "draft",
+        title: "Talkback clip — strongest 60s moment from NYC panel",
+        copy: "A moment from Tuesday night's conversation about the open web at Crosby Street Hotel.\n\nCode for the People — full film coming soon.\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary"],
+        notes: "Best 60-second clip from the professionally captured NYC talkback/Q&A. Post as Reel, TikTok, and YouTube Short. Logo overlay + end bumper. IRL team handles video cuts for social.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-03",
+        platforms: ["instagram", "tiktok", "x"],
+        type: "Video (Interview)",
+        status: "draft",
+        title: "NYC interview segments — if captured",
+        copy: "Conversations from the Code for the People screening in New York.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#NYC"],
+        notes: "PLACEHOLDER: If the social team captures strong interview segments or reactions from the NYC screening/Q&A, post here. If nothing strong, skip this slot.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-06",
+        platforms: ["instagram", "x"],
+        type: "Quote Card",
+        status: "draft",
+        title: "Quote card #6 — momentum post",
+        copy: "\"Open source is part of a line of human developments that sort of stitch history together.\"\n\n— Code for the People\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenSource", "#July4th"],
+        notes: "Light holiday weekend posting. Quote card to keep feed active. 1×1 format. Note: NYC empties out for July 4th — maintain social presence but don't waste high-effort content.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-07",
+        platforms: ["instagram"],
+        type: "Story (9×16)",
+        status: "draft",
+        title: "\"Join the movement\" Stories push — pre-SF",
+        copy: "The open web needs you.\n\nCode for the People screens in San Francisco this week.\n\nJoin the movement. codeforthepeople.com",
+        hashtags: [],
+        notes: "Use 'Join the movement' Story templates (5X versions). Link to RSVP page on codeforthepeople.com.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // SF SCREENING DAY: July 8 (or July 15 backup)
+    // ============================================================
+    {
+        date: "2026-07-08",
+        platforms: ["instagram"],
+        type: "Stories / Real-time",
+        status: "draft",
+        title: "Real-time Stories from KQED — SF screening",
+        copy: "Live from KQED, San Francisco.",
+        hashtags: [],
+        notes: "Same real-time capture approach as NYC. Story templates + logo overlay. KQED will also be promoting via their own radio and social channels.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-08",
+        platforms: ["x", "instagram"],
+        type: "Video / Quote Card",
+        status: "draft",
+        title: "Best moment from SF panel",
+        copy: "From tonight in San Francisco:\n\n[Best quote or clip from SF panel]\n\nCode for the People — watch the full film now.\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#SanFrancisco", "#KQED", "#OpenWeb"],
+        notes: "Rapid-turn clip or quote card from SF event. Professionally captured. Logo overlay.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // DIGITAL PREMIERE: ~July 9 (or day after SF)
+    // ============================================================
+    {
+        date: "2026-07-09",
+        platforms: ["instagram", "x", "bluesky", "tiktok", "facebook", "threads", "linkedin"],
+        type: "Static Image + Link",
+        status: "draft",
+        title: "\"OUT NOW\" — digital premiere hero post",
+        copy: "OUT NOW.\n\nWatch Code for the People — the full documentary about the open web, open source, and digital ownership.\n\nFree to watch. Free to share.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary", "#OpenSource", "#WatchNow", "#DigitalFreedom"],
+        notes: "MOST IMPORTANT POST OF THE CAMPAIGN. 'Out Now' poster in all four aspect ratios (1×1, 9×16, 16×9, 4×5). ALL platforms simultaneously. Link to codeforthepeople.com where the YouTube upload lives. Coordinate with Automattic/WordPress channels for simultaneous amplification. Plan is to release digitally immediately after SF screening concludes.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-09",
+        platforms: ["youtube"],
+        type: "Full Film Upload",
+        status: "draft",
+        title: "Film upload to dedicated CFTP YouTube channel",
+        copy: "Code for the People — the full documentary.\n\nThe internet is at an inflection point. This film explores why the open web matters, what open source really means, and how you can help write the next chapter.\n\nFeaturing Matt Mullenweg, Mary Hubbard, Matías Ventura, and more.\n\nLearn more and take action: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#Documentary", "#OpenWeb", "#OpenSource", "#WordPress"],
+        notes: "Upload to dedicated Code for the People YouTube channel (canonical home — NOT Automattic channel). Spanish subtitles (SRT) prepared by Pilar Perona. Film title stays in English for Spanish version. Custom thumbnail needed. All other Automattic/WP channels aggressively amplify and link here.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-09",
+        platforms: ["linkedin", "x", "facebook"],
+        type: "Cross-post / Amplification",
+        status: "draft",
+        title: "Amplification — Automattic, @WordPress, .org channels",
+        copy: "Code for the People is now available to watch — a documentary about the open web, the people who build it, and why it matters.\n\nWatch free: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#WordPress", "#OpenSource", "#OpenWeb"],
+        notes: "Cross-post 'Out Now' announcement from all Automattic/WordPress channels. Email blast goes out same day via WordPress.com/Automattic subscriber lists (millions of subscribers). WordPress.com dashboard banners also available as internal amplification tool.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-09",
+        platforms: ["instagram"],
+        type: "Story Blitz (9×16)",
+        status: "draft",
+        title: "\"Watch now\" + \"Join the movement\" Stories blitz",
+        copy: "Code for the People is LIVE.\n\nWatch the full film now. Link in bio.\n\nThe open web is already being built. Join us.",
+        hashtags: [],
+        notes: "Multiple Stories in sequence: 'Watch now' templates (5X) + 'Join the movement' templates (5X). Link sticker to codeforthepeople.com. Maximum urgency and energy.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-09",
+        platforms: ["instagram", "tiktok", "x"],
+        type: "Creator Video (Abby)",
+        status: "draft",
+        title: "Release day creator video — Abby edit",
+        copy: "Code for the People is here.\n\nWatch the full documentary about the open web.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary"],
+        notes: "Creator video by Abby Espritu for release day — edit-style video to flood the zone. Abby handles production in-house. No design work needed.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-09",
+        platforms: ["instagram", "tiktok", "youtube"],
+        type: "Creator Video (Holden)",
+        status: "draft",
+        title: "\"You need to watch this documentary\" — Holden explainer",
+        copy: "You need to watch this documentary short about the internet.\n\nCode for the People — watch free now.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary", "#MustWatch"],
+        notes: "Creator video by Holden Smith — 'You need to watch this documentary short about the internet' explainer format. Holden handles production in-house. No design work needed.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-10",
+        platforms: ["instagram"],
+        type: "Story (9×16)",
+        status: "draft",
+        title: "\"Watch now\" IG Story — keep pushing the doc",
+        copy: "Have you watched Code for the People yet?\n\nWatch the full documentary now. Link in bio.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#TakeAction", "#OpenSource", "#DigitalOwnership"],
+        notes: "IG Story pushing the documentary — keep driving views. Use 'Watch now' Story template with link sticker to codeforthepeople.com.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-10",
+        platforms: ["instagram", "tiktok", "x"],
+        type: "Creator Video (Abby)",
+        status: "draft",
+        title: "Creator video #2 — Abby edit (release momentum)",
+        copy: "Code for the People.\n\nWatch the full documentary: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary"],
+        notes: "Second creator video by Abby Espritu — extends release day momentum into Friday. Abby handles production in-house. No design work needed.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-10",
+        platforms: ["tiktok", "instagram"],
+        type: "Short Video (15s)",
+        status: "draft",
+        title: "Best 15s clip from film — standalone shareable moment",
+        copy: "This is Code for the People.\n\nWatch the full documentary: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#Documentary"],
+        notes: "Strongest standalone 15-second moment from the film. Clip farming begins — Scott Willey flagged that 'dozens of clips' from an 18-min film is unrealistic, so be selective. Pick the most emotionally resonant or provocative moment. Logo overlay + end bumper.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-13",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "Quote Cards (series)",
+        status: "draft",
+        title: "Quote card series — 3 quotes back-to-back",
+        copy: "Voices from Code for the People.\n\nWatch the full film: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenSource", "#OpenWeb"],
+        notes: "Post 3 quote cards across the day — mix of cast member quotes and movie-imagery quotes. Now that the film is public, attribution is more flexible. Rotate platforms: morning on IG, midday on X, evening on BSKY.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // PHASE 2 / LONG-TAIL (July 12+ ongoing)
+    // ============================================================
+    {
+        date: "2026-07-14",
+        platforms: ["instagram", "facebook"],
+        type: "Carousel / Slideshow",
+        status: "draft",
+        title: "SF event recap — best moments from KQED screening",
+        copy: "Last week in San Francisco.\n\nCode for the People screened at KQED with a conversation about the future of the open web.\n\nWatch the full film: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#SanFrancisco", "#KQED", "#OpenWeb"],
+        notes: "Photo slideshow / carousel of SF screening highlights: panel, audience, venue. Professional photography from IRL team. Same format as NYC recap.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-14",
+        platforms: ["tiktok", "instagram", "youtube"],
+        type: "Short Video / Reel",
+        status: "draft",
+        title: "Film clip — Matt on planting trees for future generations",
+        copy: "\"Planting a tree that you will never live to see the shade on, but you're doing it for future generations.\"\n\nWatch Code for the People: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenSource", "#Legacy", "#OpenWeb"],
+        notes: "Clip farming — select strongest emotional moments from the film. This quote about planting trees is one of the most powerful closing moments. Logo overlay + end bumper. Post as Reel/TikTok/YouTube Short.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-16",
+        platforms: ["instagram", "tiktok"],
+        type: "Carousel / Slideshow",
+        status: "draft",
+        title: "Educational slideshow — \"The history of WordPress in 5 slides\"",
+        copy: "From a blog post to 40% of the web.\n\nThe history of WordPress — in 5 slides.\n\nWatch Code for the People to see the full story: codeforthepeople.com",
+        hashtags: ["#WordPress", "#OpenSource", "#CodeForThePeople", "#WebHistory"],
+        notes: "Educational carousel — transition from film promo to open-source education content. This is Phase 2 content type: 'creator explainers and challenge format.' Branded slide templates.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-17",
+        platforms: ["instagram", "tiktok", "x"],
+        type: "Video (Interview)",
+        status: "draft",
+        title: "SF interview segments — if captured",
+        copy: "Conversations from the Code for the People screening in San Francisco.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#SanFrancisco", "#KQED"],
+        notes: "PLACEHOLDER: If the social team captures strong interview segments or reactions from the KQED screening/Q&A, post here. If nothing strong, skip this slot.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-17",
+        platforms: ["instagram", "x", "tiktok"],
+        type: "Static / Text Graphic",
+        status: "draft",
+        title: "Bold text — \"Code for the people. That's what we do.\"",
+        copy: "Code for the people.\n\nThat's what we do.\n\nWatch the film: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenSource", "#OpenWeb"],
+        notes: "Bold text template with the film's closing line. Recurring content format. 1×1.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-21",
+        platforms: ["instagram", "tiktok", "youtube"],
+        type: "Video / BTS",
+        status: "draft",
+        title: "Behind-the-scenes footage — making of the documentary",
+        copy: "Behind the scenes of Code for the People.\n\nWatch the full film: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#BTS", "#Documentary", "#Filmmaking"],
+        notes: "BTS footage, bonus clips, deleted scenes. Phase 2 content to keep the flywheel going. Coordinate with Scott Willey on what BTS material is available from East Films.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-24",
+        platforms: ["instagram", "tiktok", "x"],
+        type: "Video / Challenge",
+        status: "draft",
+        title: "Creator challenge — \"Show how you use open source in 2026\"",
+        copy: "Challenge: Show us how you use open source in 2026.\n\nTag #CodeForThePeople and we'll share the best ones.\n\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenSource", "#TechChallenge", "#OpenWeb"],
+        notes: "UGC prompt / creator challenge. Phase 2 content type from marketing plan. Target: dev/open-source/WP creators + tech TikTok/YouTube/Instagram. This feeds into the movement-building layer.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-28",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "Quote Card",
+        status: "draft",
+        title: "Quote card #7 — AI and open source",
+        copy: "\"With open source models, what AI is creating shares the same sort of fundamental freedoms that the software itself has.\"\n\n— Code for the People\ncodeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#AI", "#OpenSource", "#OpenAI"],
+        notes: "Movie quote card — AI theme. The film argues AI increases the importance of open systems. ~80% of event attendees gravitate toward AI conversation, so this theme has high engagement potential. 1×1 format.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-30",
+        platforms: ["instagram", "tiktok", "youtube"],
+        type: "Creator Video (Holden)",
+        status: "draft",
+        title: "\"Open source for dummies\" — Holden explainer",
+        copy: "Open source explained — everything you need to know.\n\nWatch Code for the People for the full story: codeforthepeople.com",
+        hashtags: ["#OpenSource", "#CodeForThePeople", "#TechEducation", "#Explainer"],
+        notes: "Creator video by Holden Smith — explainer format covering open source basics. His format, handled in-house. No design work needed.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // EVERGREEN QUOTE CARDS — Post-release (pending confirmation)
+    // ============================================================
+    // ============================================================
+    // OPERATIONAL & NEW EVENTS (from internal notes)
+    // ============================================================
+    {
+        date: "2026-05-30",
+        platforms: [],
+        type: "Internal Task",
+        status: "draft",
+        title: "⚖️ Legal clearance for clipping the film",
+        copy: "Check with legal before any standalone clips go out. The film includes archival footage from a long list of licensors (Getty, Bloomberg, CNN, TED, etc.) and the licenses may have restrictions on redistribution in clip form vs. full film.",
+        hashtags: [],
+        notes: "BLOCKER: Do NOT produce any standalone clips until legal clearance is confirmed. Raise with Chenda or loop in legal directly. This affects all trailer cutdown and clip posts in the calendar.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-05-31",
+        platforms: [],
+        type: "Event (Tentative)",
+        status: "draft",
+        title: "🎤 Matt at WordCamp Europe — possible CFTP shout-out",
+        copy: "Matt may give a shout-out about the documentary from stage at WordCamp Europe (Poland). Game-time decision on whether to include the trailer if MWA material is ready.",
+        hashtags: [],
+        notes: "If Matt teases the film, we need the website live with at least the basics so people have somewhere to go. Confirm with Matt and coordinate so social can plan around it. Likely Saturday. Trailer inclusion depends on MWA delivery timeline.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-06",
+        platforms: [],
+        type: "Internal Task",
+        status: "draft",
+        title: "📋 Confirm event capture DRI (Megan in Europe until Jun 21)",
+        copy: "Megan Marcel (IRL/Events lead) is in Europe until June 21. Need to confirm who on her team is covering NYC event photography/live capture and what the delivery window looks like post-event.",
+        hashtags: [],
+        notes: "Pin this down at Friday's check-in with 021 Strategy. IRL team scope includes live capture of audience and reactions (photographer). Scott is aware on the video side. DMAG PR doing their walkthrough June 5.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-15",
+        platforms: ["instagram", "tiktok", "x"],
+        type: "Creator Video (Abby)",
+        status: "draft",
+        title: "Creator video #3 — Abby nostalgia/archival edit",
+        copy: "The internet used to be different.\n\nWatch Code for the People: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenWeb", "#InternetNostalgia"],
+        notes: "Another nostalgia/archival edit video by Abby Espritu. Same format as the June 17 archival video. Abby handles production in-house. No design work needed.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-16",
+        platforms: ["instagram", "tiktok", "youtube"],
+        type: "Creator Video (Holden)",
+        status: "draft",
+        title: "Holden explainer #2 — different angle on open source",
+        copy: "Open source explained.\n\nWatch Code for the People: codeforthepeople.com",
+        hashtags: ["#CodeForThePeople", "#OpenSource", "#TechExplainer"],
+        notes: "Second explainer video by Holden Smith — different angle from the release-day explainer. Holden handles production in-house. No design work needed.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // AFK / LOGISTICS BLOCKERS
+    // ============================================================
+    {
+        date: "2026-05-28",
+        platforms: [],
+        type: "AFK",
+        status: "draft",
+        title: "🏖️ Darian AFK (May 28 – Jun 1)",
+        copy: "Darian is away May 28 through June 1. Social content creation and coordination paused during this window. Pre-scheduled posts only.",
+        hashtags: [],
+        notes: "Account population and setup tasks should be prepped before this window or handled immediately after. Week of 6/1 is alignment/shoring up — this AFK is part of why.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-08",
+        platforms: [],
+        type: "AFK",
+        status: "draft",
+        title: "🏖️ Darian at Tumblr meetup (Jun 8–13)",
+        copy: "Darian is at the Tumblr meetup June 8–13. Trailer drops June 9 during this window — need backup DRI for real-time social posting and monitoring on trailer day.",
+        hashtags: [],
+        notes: "LOGISTICS CONCERN: Trailer drop (6/9) falls during this AFK window. Confirm who is handling real-time posting, community monitoring, and rapid-response content. Pre-schedule everything possible.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-20",
+        platforms: [],
+        type: "AFK",
+        status: "draft",
+        title: "🏖️ Darian AFK (Jul 20–24)",
+        copy: "Darian is away July 20–24. Phase 2 long-tail posts should be pre-scheduled before this window.",
+        hashtags: [],
+        notes: "All Phase 2 posts during this week (BTS footage, UGC reposts, creator challenge) should be finalized and scheduled before July 18.",
+        assets: [],
+        assetStatus: "todo",
+        driveLink: ""
+    },
+    // ============================================================
+    // VIDEO / FYI — Handled by video team, not design work
+    // These do NOT count toward the 65-post total
+    // ============================================================
+    {
+        date: "2026-06-04",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "FYI",
+        status: "draft",
+        title: "Film clip #1 — weekly clip (pre-release)",
+        copy: "",
+        hashtags: [],
+        notes: "1 clip per week from the film until digital release July 9. Video team has cut selects at f.io/X9aFoyGX. Place wherever fits without doubling. Handled by video team or Abby — no design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-11",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "FYI",
+        status: "draft",
+        title: "Film clip #2 — weekly clip (pre-release)",
+        copy: "",
+        hashtags: [],
+        notes: "Weekly film clip. Video team handles. No design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-18",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "FYI",
+        status: "draft",
+        title: "Film clip #3 — weekly clip (pre-release)",
+        copy: "",
+        hashtags: [],
+        notes: "Weekly film clip. Video team handles. No design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    },
+    {
+        date: "2026-06-25",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "FYI",
+        status: "draft",
+        title: "Film clip #4 — weekly clip (pre-release)",
+        copy: "",
+        hashtags: [],
+        notes: "Weekly film clip. Video team handles. No design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-02",
+        platforms: ["instagram", "x", "bluesky"],
+        type: "FYI",
+        status: "draft",
+        title: "Film clip #5 — weekly clip (pre-release)",
+        copy: "",
+        hashtags: [],
+        notes: "Weekly film clip. Video team handles. No design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-13",
+        platforms: ["instagram", "x", "bluesky", "tiktok"],
+        type: "FYI",
+        status: "draft",
+        title: "Daily film clips begin — week of Jul 13",
+        copy: "",
+        hashtags: [],
+        notes: "Post-release: cross-social clip from the film each day this week. Daily cadence continues through end of July. Video team or Abby handles all clips — no design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-20",
+        platforms: ["instagram", "x", "bluesky", "tiktok"],
+        type: "FYI",
+        status: "draft",
+        title: "Daily film clips continue — week of Jul 20",
+        copy: "",
+        hashtags: [],
+        notes: "Clip a day from the film continues. Video team handles. No design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    },
+    {
+        date: "2026-07-27",
+        platforms: ["instagram", "x", "bluesky", "tiktok"],
+        type: "FYI",
+        status: "draft",
+        title: "Daily film clips continue — week of Jul 27",
+        copy: "",
+        hashtags: [],
+        notes: "Clip a day continues. Specifically: clip the moment where cast members share their first internet memory — caption copy: 'What's yours?' Video team handles. No design work needed.",
+        assets: [],
+        assetStatus: "n/a",
+        driveLink: ""
+    }
+];
+
+// ===================================================================
+// DATA PERSISTENCE — Firebase (shared) + localStorage (offline cache)
+// ===================================================================
+
+// Firebase config — stored in localStorage after first setup
+var FIREBASE_CONFIG = null;
+var firebaseDb = null;
+var firebaseReady = false;
+var _skipNextFirebaseRender = false;
+
+function loadFirebaseConfig() {
+    try {
+        var cfg = localStorage.getItem('cftp_firebase_config');
+        if (cfg) return JSON.parse(cfg);
+    } catch (e) {}
+    return null;
+}
+
+function saveFirebaseConfig(cfg) {
+    try { localStorage.setItem('cftp_firebase_config', JSON.stringify(cfg)); } catch (e) {}
+}
+
+function initFirebase(config) {
+    try {
+        if (!firebase || !firebase.initializeApp) return false;
+        firebase.initializeApp(config);
+        firebaseDb = firebase.database();
+        FIREBASE_CONFIG = config;
+        firebaseReady = true;
+
+        // Real-time listener — auto-syncs when anyone else saves
+        firebaseDb.ref('posts').on('value', function(snapshot) {
+            if (_skipNextFirebaseRender) {
+                _skipNextFirebaseRender = false;
+                return;
+            }
+            var data = snapshot.val();
+            if (data && Array.isArray(data)) {
+                POSTS.length = 0;
+                data.forEach(function(p) { POSTS.push(p); });
+                cacheToLocalStorage();
+                updateSyncStatus('synced');
+                if (typeof render === 'function') render();
+            }
+        });
+
+        updateSyncStatus('synced');
+        return true;
+    } catch (e) {
+        console.error('Firebase init error:', e);
+        updateSyncStatus('error');
+        return false;
+    }
+}
+
+function updateSyncStatus(status) {
+    var dot = document.getElementById('syncDot');
+    var label = document.getElementById('syncLabel');
+    if (!dot || !label) return;
+    dot.className = 'sync-dot ' + status;
+    var labels = { synced: 'Synced', syncing: 'Saving…', error: 'Sync error', local: 'Local only' };
+    label.textContent = labels[status] || status;
+}
+
+// localStorage as offline cache
+function cacheToLocalStorage() {
+    try { localStorage.setItem('cftp_posts', JSON.stringify(POSTS)); } catch (e) {}
+}
+
+function loadFromLocalStorage() {
+    try {
+        var saved = localStorage.getItem('cftp_posts');
+        if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return null;
+}
+
+// Main save function — writes to Firebase (if connected) + localStorage
+function savePosts() {
+    cacheToLocalStorage();
+    if (firebaseReady && firebaseDb) {
+        updateSyncStatus('syncing');
+        _skipNextFirebaseRender = true;
+        firebaseDb.ref('posts').set(POSTS)
+            .then(function() { updateSyncStatus('synced'); })
+            .catch(function() { updateSyncStatus('error'); _skipNextFirebaseRender = false; });
+    }
+}
+
+function resetToDefaults() {
+    if (confirm('Reset all posts to the original defaults? This affects all team members.')) {
+        POSTS.length = 0;
+        DEFAULT_POSTS.forEach(function(p) { POSTS.push(JSON.parse(JSON.stringify(p))); });
+        savePosts();
+        render();
+    }
+}
+
+// Initialize: load from localStorage cache immediately, then Firebase will override via listener
+var POSTS = loadFromLocalStorage() || JSON.parse(JSON.stringify(DEFAULT_POSTS));
+
+// Hardcoded Firebase config — cftp-calendar project
+initFirebase({
+    apiKey: "AIzaSyCpOlkGFHfpki2wPmPnXX4ceFekSJrDW7M",
+    authDomain: "cftp-calendar.firebaseapp.com",
+    databaseURL: "https://cftp-calendar-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "cftp-calendar",
+    storageBucket: "cftp-calendar.firebasestorage.app",
+    messagingSenderId: "262289302193",
+    appId: "1:262289302193:web:778c90cc5cde4ea1377890"
+});
+
+// Push initial data to Firebase if database is empty
+if (firebaseReady && firebaseDb) {
+    firebaseDb.ref('posts').once('value', function(snapshot) {
+        if (!snapshot.val()) {
+            firebaseDb.ref('posts').set(POSTS);
+        }
+    });
+}
 
 const PLATFORM_LABELS = {
-    instagram: "Instagram", x: "Twitter/X", bluesky: "Bluesky", linkedin: "LinkedIn", youtube: "YouTube"
+    instagram: "Instagram", x: "Twitter/X", bluesky: "Bluesky", linkedin: "LinkedIn", youtube: "YouTube", tiktok: "TikTok", facebook: "Facebook", threads: "Threads"
 };
 
 const MONTHS = [
+    { year: 2026, month: 4, label: "May 2026" },
     { year: 2026, month: 5, label: "June 2026" },
     { year: 2026, month: 6, label: "July 2026" },
     { year: 2026, month: 7, label: "August 2026" }
 ];
 
-let currentMonthIdx = 0;
+let currentMonthIdx = (function() {
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth();
+    for (var i = 0; i < MONTHS.length; i++) {
+        if (MONTHS[i].year === y && MONTHS[i].month === m) return i;
+    }
+    return 0;
+})();
 let activeFilter = "all";
 let currentView = "calendar";
 
 function getFilteredPosts() {
     if (activeFilter === "all") return POSTS;
-    return POSTS.filter(p => p.platform === activeFilter);
+    return POSTS.filter(function(p) {
+        return p.platforms && p.platforms.indexOf(activeFilter) !== -1;
+    });
 }
 
 function updateStats() {
     const filtered = getFilteredPosts();
-    document.getElementById('statTotal').textContent = filtered.length;
-    document.getElementById('statScheduled').textContent = filtered.filter(p => p.status === 'scheduled').length;
-    document.getElementById('statPublished').textContent = filtered.filter(p => p.status === 'published').length;
+    const posts = filtered.filter(p => p.platforms && p.platforms.length > 0 && !/amplif|cross-post|repost|^fyi$/i.test((p.type || '')) && !/amplif|cross-post|repost/i.test((p.title || '')));
+    document.getElementById('statTotal').textContent = posts.length;
+    document.getElementById('statScheduled').textContent = posts.filter(p => p.status === 'scheduled').length;
+    document.getElementById('statPublished').textContent = posts.filter(p => p.status === 'published').length;
 }
 
 function renderCalendar() {
     const m = MONTHS[currentMonthIdx];
     const firstDay = new Date(m.year, m.month, 1);
     const lastDay = new Date(m.year, m.month + 1, 0);
-    const startDow = firstDay.getDay();
+    const startDow = (firstDay.getDay() + 6) % 7; // Monday = 0, Sunday = 6
     const daysInMonth = lastDay.getDate();
     const today = new Date();
     const filtered = getFilteredPosts();
 
     let html = '<div class="cal-grid">';
-    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d => {
+    ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(d => {
         html += '<div class="day-header">' + d + '</div>';
     });
 
@@ -1093,8 +2774,24 @@ function renderCalendar() {
 
         const maxShow = 3;
         dayPosts.slice(0, maxShow).forEach(function(post) {
-            html += '<div class="post-chip ' + post.platform + '" data-post-idx="' + POSTS.indexOf(post) + '">';
-            html += '<span class="chip-dot"></span>';
+            var isBlocker = !post.platforms || post.platforms.length === 0;
+            var isAfk = isBlocker && (post.type || '').toLowerCase() === 'afk';
+            var isFyi = (post.type || '').toLowerCase() === 'fyi';
+            var chipPlatform = isFyi ? 'fyi' : (isAfk ? 'afk' : (isBlocker ? 'blocker' : post.platforms[0]));
+            html += '<div class="post-chip ' + chipPlatform + '" data-post-idx="' + POSTS.indexOf(post) + '">';
+            if (isFyi) {
+                html += '<span class="chip-dot" style="background:#25B6FF"></span>';
+            } else if (isAfk) {
+                html += '<span class="chip-dot" style="background:#9ca3af"></span>';
+            } else if (isBlocker) {
+                html += '<span class="chip-dot" style="background:#ef4444"></span>';
+            } else if (post.platforms.length > 1) {
+                post.platforms.forEach(function(pl) {
+                    html += '<span class="chip-dot" style="background:var(--' + pl + ')"></span>';
+                });
+            } else {
+                html += '<span class="chip-dot"></span>';
+            }
             html += '<span>' + (post.title.length > 22 ? post.title.slice(0,22) + '...' : post.title) + '</span>';
             html += '</div>';
         });
@@ -1135,7 +2832,7 @@ function renderList() {
     monthPosts.forEach(function(post) {
         const d = new Date(post.date + 'T00:00:00');
         const weekStart = new Date(d);
-        weekStart.setDate(d.getDate() - d.getDay());
+        weekStart.setDate(d.getDate() - ((d.getDay() + 6) % 7));
         const weekKey = weekStart.toISOString().slice(0,10);
 
         if (weekKey !== currentWeek) {
@@ -1147,15 +2844,33 @@ function renderList() {
 
         const dateObj = new Date(post.date + 'T00:00:00');
         const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        const platformColor = 'var(--' + post.platform + ')';
+        var platforms = post.platforms || [];
+        var platformNames = platforms.map(function(p) { return PLATFORM_LABELS[p]; }).join(', ');
         const idx = POSTS.indexOf(post);
 
-        html += '<div class="list-item" data-post-idx="' + idx + '">';
+        var isBlocker = !platforms.length;
+        var isAfk = isBlocker && (post.type || '').toLowerCase() === 'afk';
+        var isFyi = (post.type || '').toLowerCase() === 'fyi';
+        html += '<div class="list-item' + (isFyi ? ' fyi' : (isAfk ? ' afk' : (isBlocker ? ' blocker' : ''))) + '" data-post-idx="' + idx + '">';
         html += '<div class="list-date">' + dateLabel + '</div>';
-        html += '<div class="list-platform"><span class="list-dot" style="background:' + platformColor + '"></span>' + PLATFORM_LABELS[post.platform] + '</div>';
+        html += '<div class="list-platform">';
+        if (isFyi) {
+            html += '<span class="list-dot" style="background:#25B6FF"></span>';
+            html += '<span style="color:#7dd3fc;font-weight:600;font-size:11px">GOOD TO KNOW</span>';
+        } else if (isAfk) {
+            html += '<span class="list-dot" style="background:#9ca3af"></span>';
+            html += '<span style="color:#d1d5db;font-weight:600;font-size:11px">AFK / LOGISTICS</span>';
+        } else if (isBlocker) {
+            html += '<span class="list-dot" style="background:#ef4444"></span>';
+            html += '<span style="color:#fca5a5;font-weight:600;font-size:11px">BLOCKER / INFO</span>';
+        } else {
+            platforms.forEach(function(pl) { html += '<span class="list-dot" style="background:var(--' + pl + ')"></span>'; });
+            html += platformNames;
+        }
+        html += '</div>';
         html += '<div class="list-title">' + post.title + '</div>';
         html += '<div class="list-type">' + post.type + '</div>';
-        html += '<div class="list-status ' + post.status + '">' + post.status.charAt(0).toUpperCase() + post.status.slice(1) + '</div>';
+        html += '<div class="list-status ' + (isBlocker ? '' : post.status) + '">' + (isBlocker ? '' : post.status.charAt(0).toUpperCase() + post.status.slice(1)) + '</div>';
         html += '</div>';
     });
 
@@ -1183,17 +2898,36 @@ function openModal(post) {
     const dateObj = new Date(post.date + 'T00:00:00');
     const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
-    document.getElementById('modalPlatform').className = 'modal-platform-badge ' + post.platform;
-    document.getElementById('modalPlatform').textContent = PLATFORM_LABELS[post.platform];
+    var platforms = post.platforms || [];
+    var isBlocker = !platforms.length;
+    var isAfk = isBlocker && (post.type || '').toLowerCase() === 'afk';
+    var isFyi = (post.type || '').toLowerCase() === 'fyi';
+    var platformBadgesHtml = '';
+    if (isFyi) {
+        platformBadgesHtml = '<span class="modal-fyi-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Good to Know</span>';
+    } else if (isAfk) {
+        platformBadgesHtml = '<span class="modal-afk-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>AFK / Logistics</span>';
+    } else if (isBlocker) {
+        platformBadgesHtml = '<span class="modal-blocker-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Blocker / Key Info</span>';
+    } else {
+        platforms.forEach(function(pl) {
+            platformBadgesHtml += '<span class="modal-platform-badge ' + pl + '">' + PLATFORM_LABELS[pl] + '</span> ';
+        });
+    }
+    document.getElementById('modalPlatform').innerHTML = platformBadgesHtml;
+    document.getElementById('modalPlatform').className = '';
     document.getElementById('modalTitle').textContent = post.title;
 
     let body = '<div class="modal-meta">';
     body += '<div class="modal-meta-item">' + dateLabel + '</div>';
     body += '<div class="modal-meta-item">' + post.type + '</div>';
-    body += '<div class="modal-status-badge ' + post.status + '">' + post.status.charAt(0).toUpperCase() + post.status.slice(1) + '</div>';
+    if (!isBlocker) {
+        body += '<div class="modal-status-badge ' + post.status + '">' + post.status.charAt(0).toUpperCase() + post.status.slice(1) + '</div>';
+    }
     body += '</div>';
 
-    // Asset carousel
+    // Asset section — skip entirely for blocker/info posts
+    if (!isBlocker) {
     body += '<div class="modal-section"><div class="modal-section-title">Assets</div>';
     var assets = post.assets || [];
     if (assets.length > 0) {
@@ -1228,8 +2962,9 @@ function openModal(post) {
         body += 'Download assets</a>';
     }
     body += '</div></div>';
+    } // end if (!isBlocker)
 
-    body += '<div class="modal-section"><div class="modal-section-title">Draft Copy</div>';
+    body += '<div class="modal-section"><div class="modal-section-title">' + (isBlocker ? 'Details' : 'Caption') + '</div>';
     body += '<div class="modal-copy">' + post.copy + '</div></div>';
 
     if (post.hashtags && post.hashtags.length) {
@@ -1243,7 +2978,52 @@ function openModal(post) {
         body += '<div class="modal-notes">' + post.notes + '</div></div>';
     }
 
+    // Edit + Delete buttons inside body
+    var postIdx = POSTS.indexOf(post);
+    body += '<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">';
+    body += '<button class="btn-share" id="modalShareBtn" data-idx="' + postIdx + '">';
+    body += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
+    body += 'Copy Link</button>';
+    body += '<button class="btn-edit" id="modalEditBtn" data-idx="' + postIdx + '">';
+    body += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    body += 'Edit Post</button>';
+    body += '<button class="btn-delete" id="modalDeleteBtn" data-idx="' + postIdx + '">';
+    body += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+    body += 'Delete Post</button></div>';
+
     document.getElementById('modalBody').innerHTML = body;
+
+    document.getElementById('modalEditBtn').addEventListener('click', function() {
+        var idx = parseInt(this.dataset.idx);
+        closeModal('modalOverlay');
+        openEditModal(idx);
+    });
+
+    document.getElementById('modalDeleteBtn').addEventListener('click', function() {
+        var idx = parseInt(this.dataset.idx);
+        if (idx >= 0 && idx < POSTS.length) {
+            POSTS.splice(idx, 1);
+            savePosts();
+            closeModal('modalOverlay');
+            render();
+        }
+    });
+
+    // Share button
+    document.getElementById('modalShareBtn').addEventListener('click', function() {
+        var idx = parseInt(this.dataset.idx);
+        var url = window.location.origin + window.location.pathname + '#post-' + idx;
+        navigator.clipboard.writeText(url).then(function() {
+            var btn = document.getElementById('modalShareBtn');
+            var orig = btn.innerHTML;
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+            setTimeout(function() { btn.innerHTML = orig; }, 2000);
+        });
+    });
+
+    // Update URL hash
+    history.replaceState(null, '', '#post-' + postIdx);
+
     document.getElementById('modalOverlay').classList.add('open');
     window._carouselIdx = 0;
 }
@@ -1271,13 +3051,76 @@ function updateCarouselDots() {
 
 function closeModal(overlayId) {
     document.getElementById(overlayId).classList.remove('open');
+    if (overlayId === 'modalOverlay') {
+        history.replaceState(null, '', window.location.pathname);
+    }
 }
 
 document.getElementById('modalClose').addEventListener('click', function() { closeModal('modalOverlay'); });
 document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeModal('modalOverlay'); });
 
-document.getElementById('createPostBtn').addEventListener('click', function() { document.getElementById('createOverlay').classList.add('open'); });
-function closeCreateModal() { pendingAssets = []; renderUploadPreview(); closeModal('createOverlay'); }
+var editingIdx = -1;
+
+document.getElementById('createPostBtn').addEventListener('click', function() {
+    editingIdx = -1;
+    document.querySelector('.create-modal .modal-title').textContent = 'Create New Post';
+    document.getElementById('createSaveBtn').textContent = 'Add Post';
+    document.getElementById('createOverlay').classList.add('open');
+});
+
+function openEditModal(idx) {
+    var post = POSTS[idx];
+    if (!post) return;
+    editingIdx = idx;
+
+    document.querySelector('.create-modal .modal-title').textContent = 'Edit Post';
+    document.getElementById('createSaveBtn').textContent = 'Save Changes';
+
+    document.getElementById('newDate').value = post.date;
+    document.getElementById('newStatus').value = post.status;
+    document.getElementById('newType').value = post.type || '';
+    document.getElementById('newAssetStatus').value = post.assetStatus || 'todo';
+    document.getElementById('newTitle').value = post.title;
+    document.getElementById('newCopy').value = post.copy || '';
+    document.getElementById('newHashtags').value = (post.hashtags || []).join(', ');
+    document.getElementById('newNotes').value = post.notes || '';
+    document.getElementById('newDriveLink').value = post.driveLink || '';
+
+    document.querySelectorAll('#newPlatformGroup .platform-check').forEach(function(label) {
+        var cb = label.querySelector('input[type="checkbox"]');
+        var isSelected = post.platforms && post.platforms.indexOf(cb.value) !== -1;
+        cb.checked = isSelected;
+        label.classList.toggle('checked', isSelected);
+    });
+
+    pendingAssets = (post.assets || []).slice();
+    renderUploadPreview();
+
+    document.getElementById('createOverlay').classList.add('open');
+}
+
+function closeCreateModal() {
+    editingIdx = -1;
+    pendingAssets = [];
+    renderUploadPreview();
+    document.querySelectorAll('.create-modal .form-group.error').forEach(function(el) { el.classList.remove('error'); });
+    document.querySelectorAll('.create-modal .form-error-msg').forEach(function(el) { el.remove(); });
+    document.getElementById('newTitle').value = '';
+    document.getElementById('newCopy').value = '';
+    document.getElementById('newHashtags').value = '';
+    document.getElementById('newNotes').value = '';
+    document.getElementById('newType').value = '';
+    document.getElementById('newDriveLink').value = '';
+    document.getElementById('newDate').value = '';
+    document.getElementById('newAssetStatus').value = 'todo';
+    document.getElementById('newStatus').value = 'draft';
+    document.querySelectorAll('#newPlatformGroup .platform-check').forEach(function(label) {
+        var cb = label.querySelector('input[type="checkbox"]');
+        cb.checked = false;
+        label.classList.remove('checked');
+    });
+    closeModal('createOverlay');
+}
 document.getElementById('createClose').addEventListener('click', closeCreateModal);
 document.getElementById('createCancelBtn').addEventListener('click', closeCreateModal);
 document.getElementById('createOverlay').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeCreateModal(); });
@@ -1322,14 +3165,48 @@ function renderUploadPreview() {
     }
 }
 
+// Platform checkbox toggle styling
+document.querySelectorAll('#newPlatformGroup .platform-check').forEach(function(label) {
+    label.addEventListener('click', function(e) {
+        var cb = label.querySelector('input[type="checkbox"]');
+        if (e.target !== cb) {
+            cb.checked = !cb.checked;
+        }
+        label.classList.toggle('checked', cb.checked);
+    });
+});
+
 document.getElementById('createSaveBtn').addEventListener('click', function() {
+    // Clear previous errors
+    document.querySelectorAll('.create-modal .form-group.error').forEach(function(el) { el.classList.remove('error'); });
+    document.querySelectorAll('.create-modal .form-error-msg').forEach(function(el) { el.remove(); });
+
     var title = document.getElementById('newTitle').value.trim();
     var date = document.getElementById('newDate').value;
-    if (!title || !date) return;
+    var selectedPlatforms = [];
+    document.querySelectorAll('#newPlatformGroup .platform-check input:checked').forEach(function(cb) {
+        selectedPlatforms.push(cb.value);
+    });
 
-    POSTS.push({
+    // Validate required fields
+    var hasError = false;
+    if (!date) {
+        document.getElementById('newDate').closest('.form-group').classList.add('error');
+        hasError = true;
+    }
+    if (!selectedPlatforms.length) {
+        document.getElementById('newPlatformGroup').closest('.form-group').classList.add('error');
+        hasError = true;
+    }
+    if (!title) {
+        document.getElementById('newTitle').closest('.form-group').classList.add('error');
+        hasError = true;
+    }
+    if (hasError) return;
+
+    var postData = {
         date: date,
-        platform: document.getElementById('newPlatform').value,
+        platforms: selectedPlatforms,
         type: document.getElementById('newType').value || 'Post',
         status: document.getElementById('newStatus').value,
         title: title,
@@ -1339,18 +3216,16 @@ document.getElementById('createSaveBtn').addEventListener('click', function() {
         assets: pendingAssets.slice(),
         assetStatus: document.getElementById('newAssetStatus').value,
         driveLink: document.getElementById('newDriveLink').value.trim() || ''
-    });
+    };
 
-    document.getElementById('newTitle').value = '';
-    document.getElementById('newCopy').value = '';
-    document.getElementById('newHashtags').value = '';
-    document.getElementById('newNotes').value = '';
-    document.getElementById('newType').value = '';
-    document.getElementById('newDriveLink').value = '';
-    document.getElementById('newAssetStatus').value = 'todo';
-    pendingAssets = [];
-    renderUploadPreview();
-    closeModal('createOverlay');
+    if (editingIdx >= 0 && editingIdx < POSTS.length) {
+        POSTS[editingIdx] = postData;
+    } else {
+        POSTS.push(postData);
+    }
+
+    savePosts();
+    closeCreateModal();
     render();
 });
 
@@ -1388,6 +3263,10 @@ document.addEventListener('keydown', function(e) {
 document.getElementById('learnMoreToggle').addEventListener('click', function() {
     document.getElementById('learnMore').classList.toggle('open');
 });
+// Key assets toggle
+document.getElementById('keyAssetsToggle').addEventListener('click', function() {
+    document.getElementById('keyAssets').classList.toggle('open');
+});
 
 function render() {
     updateStats();
@@ -1396,6 +3275,32 @@ function render() {
 }
 
 render();
+
+// Deep link: open post from URL hash (e.g. #post-5)
+function checkHashAndOpenPost() {
+    var hash = window.location.hash;
+    if (hash && hash.indexOf('#post-') === 0) {
+        var idx = parseInt(hash.replace('#post-', ''));
+        if (idx >= 0 && idx < POSTS.length) {
+            // Navigate to the correct month
+            var postDate = new Date(POSTS[idx].date + 'T00:00:00');
+            var postMonth = postDate.getMonth();
+            var postYear = postDate.getFullYear();
+            for (var m = 0; m < MONTHS.length; m++) {
+                if (MONTHS[m].month === postMonth && MONTHS[m].year === postYear) {
+                    currentMonthIdx = m;
+                    render();
+                    break;
+                }
+            }
+            openModal(POSTS[idx]);
+        }
+    }
+}
+// Check on load (with small delay for Firebase data to arrive)
+setTimeout(checkHashAndOpenPost, 500);
+// Also check when hash changes (e.g. back button)
+window.addEventListener('hashchange', checkHashAndOpenPost);
 </script>
 </body>
 </html>
