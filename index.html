@@ -2676,19 +2676,42 @@ function resetToDefaults() {
 // Structural fields (overwritten from defaults): date, platforms, type, title, copy, hashtags, notes
 // User fields (preserved): status, assets, assetStatus, driveLink, plus any custom fields
 function mergeDefaults() {
-    // Build a map of current posts by ID
+    // Build lookup maps for current posts
     var currentById = {};
+    var currentByTitle = {};
     POSTS.forEach(function(p) {
         if (p.id) currentById[p.id] = p;
+        // Also index by title for matching old posts that don't have IDs yet
+        if (p.title) {
+            if (!currentByTitle[p.title]) currentByTitle[p.title] = [];
+            currentByTitle[p.title].push(p);
+        }
     });
+
+    var matchedTitles = {}; // track which title-matched posts we've already used
 
     // Build the new posts array from DEFAULT_POSTS order
     var merged = [];
-    var usedIds = {};
 
     DEFAULT_POSTS.forEach(function(defaultPost) {
         var dp = JSON.parse(JSON.stringify(defaultPost));
-        var existing = dp.id ? currentById[dp.id] : null;
+
+        // Try to find the existing post: first by ID, then by title
+        var existing = null;
+        if (dp.id && currentById[dp.id]) {
+            existing = currentById[dp.id];
+        } else if (dp.title && currentByTitle[dp.title]) {
+            // Fallback: match by title (for old posts without IDs)
+            var candidates = currentByTitle[dp.title];
+            for (var i = 0; i < candidates.length; i++) {
+                var key = dp.title + '_' + i;
+                if (!matchedTitles[key]) {
+                    existing = candidates[i];
+                    matchedTitles[key] = true;
+                    break;
+                }
+            }
+        }
 
         if (existing) {
             // Merge: keep structural fields from default, preserve user edits
@@ -2710,10 +2733,15 @@ function mergeDefaults() {
                     dp[key] = userFields[key];
                 }
             });
-            usedIds[dp.id] = true;
         }
         merged.push(dp);
     });
+
+    // Log what happened
+    var preserved = merged.filter(function(p) {
+        return p.driveLink || (p.assets && p.assets.length > 0) || p.status !== 'draft';
+    }).length;
+    console.log('[CFTP Sync] Merged ' + merged.length + ' posts. Preserved user edits on ' + preserved + ' posts.');
 
     // Replace POSTS array
     POSTS.length = 0;
