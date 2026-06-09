@@ -1282,7 +1282,7 @@
                 <li><a href="https://docs.google.com/spreadsheets/d/1lRlRpaOQhoU3p-dyXjTD7V65NzcUJz86/edit?gid=37098522#gid=37098522">&#8594; Messaging Architecture</a></li>
             </ul>
             <p style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
-                <button onclick="resetToDefaults()" style="background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.8rem; font-family: inherit;">Reset all posts to defaults</button>
+                <button onclick="resetToDefaults()" style="background: none; border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.8rem; font-family: inherit;">Sync calendar structure (preserves your edits)</button>
                 <span style="display: block; margin-top: 6px; font-size: 0.75rem; color: var(--text-light);">Changes sync automatically across all team members when Firebase is connected. Use this to restore the original 55-post calendar.</span>
             </p>
         </div>
@@ -1541,6 +1541,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-05-28",
+        id: "2026-05-28_launch-cftp-social-accounts-set",
         platforms: ["instagram", "tiktok", "bluesky"],
         type: "Profile Setup",
         status: "draft",
@@ -1554,6 +1555,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-05-29",
+        id: "2026-05-29_instagram-grid-tiled-poster-post",
         platforms: ["instagram"],
         type: "Grid Post (9 images)",
         status: "draft",
@@ -1567,6 +1569,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-12",
+        id: "2026-06-12_something-is-coming",
         platforms: ["instagram", "tiktok", "bluesky", "x", "threads"],
         type: "Static Image / Teaser",
         status: "draft",
@@ -1583,6 +1586,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-06-17",
+        id: "2026-06-17_trailer-drop-primary-launch-moment",
         platforms: ["instagram", "tiktok", "youtube", "x", "bluesky", "facebook", "threads"],
         type: "Video (60-90s)",
         status: "draft",
@@ -1596,6 +1600,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-17",
+        id: "2026-06-17_trailer-amplification-automattic-wordpress-dotorg",
         platforms: ["linkedin", "x", "facebook"],
         type: "Video / Cross-post",
         status: "draft",
@@ -1609,6 +1614,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-17",
+        id: "2026-06-17_ig-stories-trailer-announcement",
         platforms: ["instagram"],
         type: "Story (9×16)",
         status: "draft",
@@ -1622,6 +1628,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-13",
+        id: "2026-07-13_trailer-cutdown-strongest-15-30s",
         platforms: ["tiktok", "instagram", "x"],
         type: "Short Video (15-30s)",
         status: "draft",
@@ -1635,6 +1642,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-16",
+        id: "2026-06-16_poster-reveal",
         platforms: ["instagram", "x", "bluesky", "facebook"],
         type: "Static Image",
         status: "draft",
@@ -1648,6 +1656,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-16",
+        id: "2026-06-16_coming-soon-poster-automattic-dotorg",
         platforms: ["linkedin", "x", "facebook"],
         type: "Static Image",
         status: "draft",
@@ -1661,6 +1670,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-19",
+        id: "2026-06-19_director-spotlight-bao-nguyen-introduction",
         platforms: ["instagram", "tiktok"],
         type: "Carousel / Video",
         status: "draft",
@@ -1677,6 +1687,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-07-24",
+        id: "2026-07-24_quote-card-matt-mullenweg-on",
         platforms: ["instagram", "x", "bluesky"],
         type: "Quote Card",
         status: "draft",
@@ -1690,6 +1701,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-08",
+        id: "2026-06-08_this-platform-has-your-data",
         platforms: ["instagram", "tiktok", "x"],
         type: "Static / Text Graphic",
         status: "draft",
@@ -1703,6 +1715,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-22",
+        id: "2026-07-22_what-is-open-source",
         platforms: ["instagram", "tiktok", "bluesky", "x"],
         type: "Carousel / Slideshow",
         status: "draft",
@@ -1716,6 +1729,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-08-03",
+        id: "2026-08-03_film-still-personal-caption-from",
         platforms: ["instagram"],
         type: "Photo Post",
         status: "draft",
@@ -1732,6 +1746,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-06-24",
+        id: "2026-06-24_15-days-countdown",
         platforms: ["instagram", "x", "bluesky", "tiktok"],
         type: "Static Image",
         status: "draft",
@@ -1745,6 +1760,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-21",
+        id: "2026-07-21_archival-internet-content-nostalgic-2000s",
         platforms: ["instagram", "tiktok", "x", "bluesky", "threads"],
         type: "Creator Video (Abby)",
         status: "draft",
@@ -1758,6 +1774,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-08-04",
+        id: "2026-08-04_quote-card-platform-decay-enshittification",
         platforms: ["instagram", "x"],
         type: "Quote Card",
         status: "draft",
@@ -1771,6 +1788,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-10",
+        id: "2026-06-10_you-dont-own-your-home",
         platforms: ["tiktok", "instagram", "x"],
         type: "Static / Text Graphic",
         status: "draft",
@@ -1784,6 +1802,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-15",
+        id: "2026-06-15_are-you-ready",
         platforms: ["instagram", "tiktok", "x"],
         type: "Static / Text Graphic",
         status: "draft",
@@ -1797,6 +1816,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-29",
+        id: "2026-06-29_10-days-countdown",
         platforms: ["instagram", "x", "bluesky", "tiktok"],
         type: "Static Image",
         status: "draft",
@@ -1810,6 +1830,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-30",
+        id: "2026-06-30_nyc-screening-poster-repost-rsvp",
         platforms: ["instagram", "x", "bluesky", "threads"],
         type: "Static Image / Repost",
         status: "draft",
@@ -1826,6 +1847,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-07-02",
+        id: "2026-07-02_one-week-countdown",
         platforms: ["instagram", "x", "bluesky", "tiktok"],
         type: "Static Image",
         status: "draft",
@@ -1839,6 +1861,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-24",
+        id: "2026-06-24_wordpress-amplification-film-endorsement-post",
         platforms: ["linkedin", "facebook", "x"],
         type: "Static Image / Cross-post",
         status: "draft",
@@ -1852,6 +1875,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-25",
+        id: "2026-06-25_nyc-screening-poster-crosby-street",
         platforms: ["instagram", "x", "bluesky", "facebook", "threads", "linkedin"],
         type: "Static Image / Poster",
         status: "draft",
@@ -1865,6 +1889,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-06",
+        id: "2026-07-06_sf-screening-poster-kqed-july",
         platforms: ["instagram", "x", "bluesky", "facebook", "threads", "linkedin"],
         type: "Static Image / Poster",
         status: "draft",
@@ -1878,6 +1903,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-22",
+        id: "2026-07-22_why-this-film-matters-holden",
         platforms: ["instagram", "tiktok", "youtube"],
         type: "Creator Video (Holden)",
         status: "draft",
@@ -1891,6 +1917,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-06",
+        id: "2026-07-06_3-days-countdown",
         platforms: ["instagram", "x", "bluesky", "tiktok", "threads"],
         type: "Static Image",
         status: "draft",
@@ -1904,6 +1931,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-07",
+        id: "2026-07-07_2-days-countdown",
         platforms: ["instagram", "x", "bluesky"],
         type: "Static Image",
         status: "draft",
@@ -1917,6 +1945,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-08",
+        id: "2026-07-08_tomorrow-countdown",
         platforms: ["instagram", "x", "bluesky", "tiktok", "threads"],
         type: "Static Image",
         status: "draft",
@@ -1933,6 +1962,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-07-01",
+        id: "2026-07-01_real-time-stories-from-nyc",
         platforms: ["instagram"],
         type: "Stories / Real-time",
         status: "draft",
@@ -1946,6 +1976,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-01",
+        id: "2026-07-01_live-event-captures-photos-and",
         platforms: ["instagram", "x", "tiktok"],
         type: "Photo / Video",
         status: "draft",
@@ -1959,6 +1990,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-02",
+        id: "2026-07-02_post-screening-recap-photo-carousel",
         platforms: ["instagram"],
         type: "Carousel",
         status: "draft",
@@ -1972,6 +2004,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-02",
+        id: "2026-07-02_key-quote-from-the-nyc",
         platforms: ["x", "bluesky"],
         type: "Quote Card / Text",
         status: "draft",
@@ -1988,6 +2021,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-07-03",
+        id: "2026-07-03_talkback-clip-strongest-60s-moment",
         platforms: ["instagram", "tiktok", "youtube"],
         type: "Video (60s clip)",
         status: "draft",
@@ -2001,6 +2035,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-03",
+        id: "2026-07-03_nyc-interview-segments-if-captured",
         platforms: ["instagram", "tiktok", "x"],
         type: "Video (Interview)",
         status: "draft",
@@ -2014,6 +2049,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-08-05",
+        id: "2026-08-05_quote-card-momentum-post",
         platforms: ["instagram", "x"],
         type: "Quote Card",
         status: "draft",
@@ -2030,6 +2066,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-07-08",
+        id: "2026-07-08_real-time-stories-from-kqed",
         platforms: ["instagram"],
         type: "Stories / Real-time",
         status: "draft",
@@ -2043,6 +2080,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-08",
+        id: "2026-07-08_best-moment-from-sf-panel",
         platforms: ["x", "instagram"],
         type: "Video / Quote Card",
         status: "draft",
@@ -2059,6 +2097,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-07-09",
+        id: "2026-07-09_out-now-digital-premiere",
         platforms: ["instagram", "x", "bluesky", "tiktok", "facebook", "threads", "linkedin"],
         type: "Static Image + Link",
         status: "draft",
@@ -2072,6 +2111,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-09",
+        id: "2026-07-09_film-upload-to-dedicated-cftp",
         platforms: ["youtube"],
         type: "Full Film Upload",
         status: "draft",
@@ -2085,6 +2125,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-09",
+        id: "2026-07-09_amplification-automattic-wordpress-org-channels",
         platforms: ["linkedin", "x", "facebook"],
         type: "Cross-post / Amplification",
         status: "draft",
@@ -2098,6 +2139,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-09",
+        id: "2026-07-09_release-day-creator-video-abby",
         platforms: ["instagram", "tiktok", "x"],
         type: "Creator Video (Abby)",
         status: "draft",
@@ -2111,6 +2153,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-09",
+        id: "2026-07-09_holden-you-need-to-watch",
         platforms: ["instagram", "tiktok", "youtube"],
         type: "Creator Video (Holden)",
         status: "draft",
@@ -2124,6 +2167,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-10",
+        id: "2026-07-10_cast-spotlight-carousel-meet-the",
         platforms: ["instagram", "x", "bluesky", "threads"],
         type: "Carousel",
         status: "draft",
@@ -2140,6 +2184,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-07-14",
+        id: "2026-07-14_sf-event-recap-best-moments",
         platforms: ["instagram", "facebook"],
         type: "Carousel / Slideshow",
         status: "draft",
@@ -2153,6 +2198,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-14",
+        id: "2026-07-14_film-clip-matt-on-planting",
         platforms: ["tiktok", "instagram", "youtube"],
         type: "Short Video / Reel",
         status: "draft",
@@ -2166,6 +2212,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-16",
+        id: "2026-07-16_educational-slideshow",
         platforms: ["instagram", "tiktok"],
         type: "Carousel / Slideshow",
         status: "draft",
@@ -2179,6 +2226,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-17",
+        id: "2026-07-17_sf-interview-segments-if-captured",
         platforms: ["instagram", "tiktok", "x"],
         type: "Video (Interview)",
         status: "draft",
@@ -2192,6 +2240,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-28",
+        id: "2026-07-28_quote-card-ai-and-open",
         platforms: ["instagram", "x", "bluesky"],
         type: "Quote Card",
         status: "draft",
@@ -2205,6 +2254,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-30",
+        id: "2026-07-30_open-source-for-dummies",
         platforms: ["instagram", "tiktok", "youtube"],
         type: "Creator Video (Holden)",
         status: "draft",
@@ -2221,6 +2271,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-06-26",
+        id: "2026-06-26_quote-card-mary-hubbard-on",
         platforms: ["instagram", "x", "bluesky", "linkedin"],
         type: "Quote Card",
         status: "draft",
@@ -2234,6 +2285,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-23",
+        id: "2026-07-23_llms-that-are-closed-source",
         platforms: ["instagram", "tiktok", "x", "linkedin"],
         type: "Carousel / Slideshow",
         status: "draft",
@@ -2247,6 +2299,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-27",
+        id: "2026-07-27_websites-on-open-source",
         platforms: ["instagram", "tiktok", "x", "bluesky"],
         type: "Carousel / Slideshow",
         status: "draft",
@@ -2260,6 +2313,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-29",
+        id: "2026-07-29_open-source-platforms-you-should",
         platforms: ["instagram", "tiktok", "x", "bluesky", "linkedin"],
         type: "Carousel / Slideshow",
         status: "draft",
@@ -2273,6 +2327,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-31",
+        id: "2026-07-31_important-figures-in-open-source",
         platforms: ["instagram", "tiktok", "x", "bluesky"],
         type: "Carousel / Slideshow",
         status: "draft",
@@ -2286,6 +2341,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-08-06",
+        id: "2026-08-06_tbd-post-release-content",
         platforms: ["instagram", "x"],
         type: "TBD",
         status: "draft",
@@ -2299,6 +2355,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-08-07",
+        id: "2026-08-07_quote-card-series-quotes-back",
         platforms: ["instagram", "x", "bluesky"],
         type: "Quote Cards (series)",
         status: "draft",
@@ -2315,6 +2372,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-05-30",
+        id: "2026-05-30_legal-clearance-for-clipping-the",
         platforms: [],
         type: "Internal Task",
         status: "draft",
@@ -2328,6 +2386,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-05-31",
+        id: "2026-05-31_matt-at-wordcamp-europe-possible",
         platforms: [],
         type: "Event (Tentative)",
         status: "draft",
@@ -2341,6 +2400,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-06",
+        id: "2026-06-06_confirm-event-capture-dri-megan",
         platforms: [],
         type: "Internal Task",
         status: "draft",
@@ -2354,6 +2414,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-15",
+        id: "2026-07-15_creator-video-abby-nostalgia-archival",
         platforms: ["instagram", "tiktok", "x"],
         type: "Creator Video (Abby)",
         status: "draft",
@@ -2370,6 +2431,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-05-28",
+        id: "2026-05-28_darian-afk-may-28-jun",
         platforms: [],
         type: "AFK",
         status: "draft",
@@ -2383,6 +2445,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-08",
+        id: "2026-06-08_darian-at-tumblr-meetup-jun",
         platforms: [],
         type: "AFK",
         status: "draft",
@@ -2396,6 +2459,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-20",
+        id: "2026-07-20_darian-afk-jul-2024",
         platforms: [],
         type: "AFK",
         status: "draft",
@@ -2413,6 +2477,7 @@ const DEFAULT_POSTS = [
     // ============================================================
     {
         date: "2026-06-04",
+        id: "2026-06-04_film-clip-weekly-clip-pre",
         platforms: ["instagram", "x", "bluesky"],
         type: "FYI",
         status: "draft",
@@ -2426,6 +2491,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-11",
+        id: "2026-06-11_film-clip-weekly-clip-pre",
         platforms: ["instagram", "x", "bluesky"],
         type: "FYI",
         status: "draft",
@@ -2439,6 +2505,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-06-25",
+        id: "2026-06-25_film-clip-weekly-clip-pre",
         platforms: ["instagram", "x", "bluesky"],
         type: "FYI",
         status: "draft",
@@ -2452,6 +2519,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-02",
+        id: "2026-07-02_film-clip-weekly-clip-pre",
         platforms: ["instagram", "x", "bluesky"],
         type: "FYI",
         status: "draft",
@@ -2465,6 +2533,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-13",
+        id: "2026-07-13_daily-film-clips-begin-week",
         platforms: ["instagram", "x", "bluesky", "tiktok"],
         type: "FYI",
         status: "draft",
@@ -2478,6 +2547,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-20",
+        id: "2026-07-20_daily-film-clips-continue-week",
         platforms: ["instagram", "x", "bluesky", "tiktok"],
         type: "FYI",
         status: "draft",
@@ -2491,6 +2561,7 @@ const DEFAULT_POSTS = [
     },
     {
         date: "2026-07-27",
+        id: "2026-07-27_daily-film-clips-continue-week",
         platforms: ["instagram", "x", "bluesky", "tiktok"],
         type: "FYI",
         status: "draft",
@@ -2594,12 +2665,59 @@ function savePosts() {
 }
 
 function resetToDefaults() {
-    if (confirm('Reset all posts to the original defaults? This affects all team members.')) {
-        POSTS.length = 0;
-        DEFAULT_POSTS.forEach(function(p) { POSTS.push(JSON.parse(JSON.stringify(p))); });
+    if (confirm('Sync calendar structure from latest deploy? Your edits (links, assets, status, drive links) will be preserved. This affects all team members.')) {
+        mergeDefaults();
         savePosts();
         render();
     }
+}
+
+// Smart merge: updates structural fields from DEFAULT_POSTS but preserves user edits
+// Structural fields (overwritten from defaults): date, platforms, type, title, copy, hashtags, notes
+// User fields (preserved): status, assets, assetStatus, driveLink, plus any custom fields
+function mergeDefaults() {
+    // Build a map of current posts by ID
+    var currentById = {};
+    POSTS.forEach(function(p) {
+        if (p.id) currentById[p.id] = p;
+    });
+
+    // Build the new posts array from DEFAULT_POSTS order
+    var merged = [];
+    var usedIds = {};
+
+    DEFAULT_POSTS.forEach(function(defaultPost) {
+        var dp = JSON.parse(JSON.stringify(defaultPost));
+        var existing = dp.id ? currentById[dp.id] : null;
+
+        if (existing) {
+            // Merge: keep structural fields from default, preserve user edits
+            var userFields = {
+                status: existing.status,
+                assets: existing.assets,
+                assetStatus: existing.assetStatus,
+                driveLink: existing.driveLink
+            };
+            // Copy any extra custom fields the user may have added
+            Object.keys(existing).forEach(function(key) {
+                if (!(key in dp) && key !== '__dirty') {
+                    userFields[key] = existing[key];
+                }
+            });
+            // Apply user fields on top of defaults
+            Object.keys(userFields).forEach(function(key) {
+                if (userFields[key] !== undefined && userFields[key] !== null) {
+                    dp[key] = userFields[key];
+                }
+            });
+            usedIds[dp.id] = true;
+        }
+        merged.push(dp);
+    });
+
+    // Replace POSTS array
+    POSTS.length = 0;
+    merged.forEach(function(p) { POSTS.push(p); });
 }
 
 // Initialize: load from localStorage cache immediately, then Firebase will override via listener
